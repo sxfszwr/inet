@@ -35,3 +35,9 @@ All showcases:
    visualizer/index
    wireless/index
 
+.. toctree::
+   :maxdepth: 1
+   :glob:
+   :caption: All showcases
+
+   */*/doc/index
