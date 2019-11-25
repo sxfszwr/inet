@@ -18,6 +18,7 @@
 
 #include "inet/common/ModuleAccess.h"
 #include "inet/common/SelfDocumenterFingerprintCalculator.h"
+#include "inet/common/packet/Message.h"
 #include "inet/common/packet/Packet.h"
 
 #ifdef __INET_SELFDOC_H
@@ -25,6 +26,15 @@
 namespace inet {
 
 Register_Class(SelfDocumenterFingerprintCalculator);
+
+static TagSet *findTags(cMessage *msg)
+{
+    if (auto packet = dynamic_cast<Packet *>(msg))
+        return &packet->getTags();
+    if (auto message = dynamic_cast<Message *>(msg))
+        return &message->getTags();
+    return nullptr;
+}
 
 static std::string tagsToString(cMessage *msg)
 {
