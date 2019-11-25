@@ -89,6 +89,7 @@ void SelfDocumenterFingerprintCalculator::addEvent(cEvent *event)
                     << " ctrl=" << (ctrl ? opp_typename(typeid(*ctrl)) : "<null>")
                     << " tags=" << tagsToString(msg)
                     << " msgname=" << msgName
+                    << " context=" << (context ? "filled" : "<null>")
                    ;
             globalSelfDoc.insert(os.str());
         }
