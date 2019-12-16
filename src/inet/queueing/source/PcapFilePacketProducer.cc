@@ -65,7 +65,7 @@ void PcapFilePacketProducer::schedulePacket()
     emit(packetCreatedSignal, packet);
     if (packet != nullptr) {
         EV << "Scheduling packet " << packet->getFullName() << " from PCAP file.\n";
-        scheduleClockEvent(pair.first, packet);
+        scheduleAt(pair.first, packet);
     }
     else
         EV << "End of PCAP file reached.\n";
