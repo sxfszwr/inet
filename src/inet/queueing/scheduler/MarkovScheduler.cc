@@ -95,7 +95,7 @@ int MarkovScheduler::schedulePacket()
 
 void MarkovScheduler::scheduleWaitTimer()
 {
-    scheduleAt(simTime() + waitIntervals[state].doubleValue(this), waitTimer);
+    scheduleClockEvent(getClockTime() + waitIntervals[state].doubleValue(this), waitTimer);
 }
 
 bool MarkovScheduler::canPushSomePacket(cGate *gate) const
