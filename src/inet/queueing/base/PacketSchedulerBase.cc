@@ -36,7 +36,7 @@ void PacketSchedulerBase::initialize(int stage)
         }
     }
     else if (stage == INITSTAGE_QUEUEING) {
-        for (int i = 0; i < gateSize("in"); i++)
+        for (int i = 0; i < (int)inputGates.size(); i++)
             checkPacketPullingSupport(inputGates[i]);
         checkPacketPullingSupport(outputGate);
     }
@@ -44,12 +44,23 @@ void PacketSchedulerBase::initialize(int stage)
 
 bool PacketSchedulerBase::canPullSomePacket(cGate *gate) const
 {
-    for (int i = 0; i < gateSize("in"); i++) {
+    for (int i = 0; i < (int)inputGates.size(); i++) {
         auto inputProvider = providers[i];
         if (inputProvider->canPullSomePacket(inputGates[i]->getPathStartGate()))
             return true;
     }
     return false;
+}
+
+Packet *PacketSchedulerBase::canPullPacket(cGate *gate) const
+{
+    for (int i = 0; i < (int)inputGates.size(); i++) {
+        auto inputProvider = providers[i];
+        auto packet = inputProvider->canPullPacket(inputGates[i]->getPathStartGate());
+        if (packet != nullptr)
+            return packet;
+    }
+    return nullptr;
 }
 
 Packet *PacketSchedulerBase::pullPacket(cGate *gate)
@@ -59,11 +70,12 @@ Packet *PacketSchedulerBase::pullPacket(cGate *gate)
     if (index < 0 || static_cast<unsigned int>(index) >= inputGates.size())
         throw cRuntimeError("Scheduled packet from invalid input gate: %d", index);
     auto packet = providers[index]->pullPacket(inputGates[index]->getPathStartGate());
+    take(packet);
     EV_INFO << "Scheduling packet " << packet->getName() << ".\n";
+    animateSend(packet, outputGate);
     numProcessedPackets++;
     processedTotalLength += packet->getDataLength();
     updateDisplayString();
-    animateSend(packet, outputGate);
     emit(packetPulledSignal, packet);
     return packet;
 }

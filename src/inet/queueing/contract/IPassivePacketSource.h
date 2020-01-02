@@ -25,17 +25,26 @@ namespace queueing {
 
 /**
  * This class defines the interface for passive packet sources.
+ * See the corresponding NED file for more details.
  */
 class INET_API IPassivePacketSource
 {
+  public:
+    enum CanPullSomePacketResult {
+        PULL_NONE = 0,
+        PULL_SOME = 1,
+        PULL_ANY  = 2,
+    };
+
   public:
     virtual ~IPassivePacketSource() {}
 
     /**
      * Returns false if the packet source is empty at the given gate and no more
-     * packets can be pulled without raising an error. The gate must support
-     * pulling packets.
+     * packets can be pulled from it without raising an error. The gate must
+     * support pulling packets.
      */
+    // TODO: change name and result to: ANY, SOME, NONE
     virtual bool canPullSomePacket(cGate *gate = nullptr) const = 0;
 
     /**
@@ -46,11 +55,44 @@ class INET_API IPassivePacketSource
     virtual Packet *canPullPacket(cGate *gate = nullptr) const = 0;
 
     /**
-     * Pops a packet from the packet source at the given gate. The provider must
-     * not be empty at the given gate. The returned packet is never nullptr, and
-     * the gate must support pulling packets.
+     * Pulls a packet from the packet source at the given gate. This operation
+     * pulls the packet all at once. The source must not be empty at the given
+     * gate. The returned packet is never nullptr, and the gate must support
+     * pulling and passing packets.
      */
     virtual Packet *pullPacket(cGate *gate = nullptr) = 0;
+
+    /**
+     * Starts pulling the packet from the packet source at the given gate. This is
+     * a streaming operation. The source must not be empty at the gate. The gate
+     * must support pulling and streaming packets and the returned packet is
+     * never nullptr.
+     */
+    virtual Packet *pullPacketStart(cGate *gate = nullptr) = 0;
+
+    /**
+     * Ends pulling the packet from the packet source at the given gate. This is
+     * a streaming operation. The source must not be empty at the gate. The gate
+     * must support pulling and streaming packets and the returned packet is
+     * never nullptr.
+     */
+    virtual Packet *pullPacketEnd(cGate *gate = nullptr) = 0;
+
+    /**
+     * Progresses pulling the packet from the packet source at the given gate.
+     * This is a streaming operation. The position specifies where the streaming
+     * is at the moment. The extra length partially fixes the future of the
+     * streaming operation. The source must not be empty at the gate. The gate
+     * must support pulling and streaming packets and the returned packet is
+     * never nullptr.
+     */
+    virtual Packet *pullPacketProgress(b& position, b& extraProcessableLength, cGate *gate = nullptr) = 0;
+
+    /**
+     * Returns the processed length of the streamed packet. The packet must not
+     * be nullptr and the gate must support pulling and streaming packets.
+     */
+    virtual b getPulledPacketProcessedLength(Packet *packet, cGate *gate = nullptr) = 0;
 };
 
 } // namespace queueing

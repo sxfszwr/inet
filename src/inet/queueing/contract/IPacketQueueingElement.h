@@ -48,6 +48,21 @@ class INET_API IPacketQueueingElement
      * an error during initialize. The gate must not be nullptr.
      */
     virtual bool supportsPacketPulling(cGate *gate) const = 0;
+
+    /**
+     * Returns true if the element supports passing packets all at once at the
+     * given gate. Connecting incompatible gates raises an error during initialize.
+     * The gate must not be nullptr.
+     */
+    virtual bool supportsPacketPassing(cGate *gate) const { return true; }
+
+    /**
+     * Returns true if the element supports streaming packets using potentially
+     * several calls and/or potentially exending to a non-zero simulation duration
+     * at the given gate. Connecting incompatible gates raises an error during
+     * initialize. The gate must not be nullptr.
+     */
+    virtual bool supportsPacketStreaming(cGate *gate) const { return false; }
 };
 
 } // namespace queueing

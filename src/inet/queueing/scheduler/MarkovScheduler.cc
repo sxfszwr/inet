@@ -58,8 +58,8 @@ void MarkovScheduler::initialize(int stage)
     }
     else if (stage == INITSTAGE_QUEUEING) {
         for (int i = 0; i < (int)inputGates.size(); i++)
-            checkPackingPushingOrPullingSupport(inputGates[i]);
-        checkPackingPushingOrPullingSupport(outputGate);
+            checkPacketPushingOrPullingSupport(inputGates[i]);
+        checkPacketPushingOrPullingSupport(outputGate);
         if (producers[state] != nullptr)
             producers[state]->handleCanPushPacket(inputGates[state]);
         scheduleWaitTimer();
@@ -110,6 +110,7 @@ bool MarkovScheduler::canPushPacket(Packet *packet, cGate *gate) const
 void MarkovScheduler::pushPacket(Packet *packet, cGate *gate)
 {
     Enter_Method("pushPacket");
+    take(packet);
     if (gate->getIndex() != state)
         throw cRuntimeError("Cannot push to gate");
     processedTotalLength += packet->getDataLength();

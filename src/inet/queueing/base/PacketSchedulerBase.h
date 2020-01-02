@@ -46,10 +46,15 @@ class INET_API PacketSchedulerBase : public PacketProcessorBase, public IActiveP
     virtual bool supportsPacketPulling(cGate *gate) const override { return true; }
 
     virtual bool canPullSomePacket(cGate *gate) const override;
-    virtual Packet *canPullPacket(cGate *gate) const override { throw cRuntimeError("Invalid operation"); }
+    virtual Packet *canPullPacket(cGate *gate) const override;
     virtual Packet *pullPacket(cGate *gate) override;
+    virtual Packet *pullPacketStart(cGate *gate = nullptr) override { return nullptr; }
+    virtual Packet *pullPacketEnd(cGate *gate = nullptr) override { return nullptr; }
+    virtual Packet *pullPacketProgress(b& position, b& extraProcessableLength, cGate *gate = nullptr) override { return nullptr; }
+    virtual b getPulledPacketProcessedLength(Packet *packet, cGate *gate = nullptr) override { return b(0); }
 
     virtual void handleCanPullPacket(cGate *gate) override;
+    virtual void handlePullPacketConfirmation(Packet *packet, cGate *gate, bool successful) override { }
 };
 
 } // namespace queueing

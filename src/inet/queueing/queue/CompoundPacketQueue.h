@@ -56,10 +56,18 @@ class INET_API CompoundPacketQueue : public PacketQueueBase, public cListener
     virtual bool supportsPacketPushing(cGate *gate) const override { return inputGate == gate; }
     virtual bool canPushPacket(Packet *packet, cGate *gate) const override { return true; }
     virtual void pushPacket(Packet *packet, cGate *gate) override;
+    virtual void pushPacketStart(Packet *packet, cGate *gate = nullptr) override { }
+    virtual void pushPacketEnd(Packet *packet, cGate *gate = nullptr) override { }
+    virtual void pushPacketProgress(Packet *packet, b position, b extraProcessableLength = b(0), cGate *gate = nullptr) override { }
+    virtual b getPushedPacketProcessedLength(Packet *packet, cGate *gate = nullptr) override { return b(0); }
 
     virtual bool supportsPacketPulling(cGate *gate) const override { return outputGate == gate; }
     virtual Packet *canPullPacket(cGate *gate) const override { throw cRuntimeError("Invalid operation"); }
     virtual Packet *pullPacket(cGate *gate) override;
+    virtual Packet *pullPacketStart(cGate *gate = nullptr) override { return nullptr; }
+    virtual Packet *pullPacketEnd(cGate *gate = nullptr) override { return nullptr; }
+    virtual Packet *pullPacketProgress(b& position, b& extraProcessableLength, cGate *gate = nullptr) override { return nullptr; }
+    virtual b getPulledPacketProcessedLength(Packet *packet, cGate *gate = nullptr) override { return b(0); }
 
     virtual void receiveSignal(cComponent *source, simsignal_t signal, cObject *object, cObject *details) override;
 };

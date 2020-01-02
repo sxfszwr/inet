@@ -48,8 +48,8 @@ void PacketGate::initialize(int stage)
 
     }
     else if (stage == INITSTAGE_QUEUEING) {
-        checkPackingPushingOrPullingSupport(inputGate);
-        checkPackingPushingOrPullingSupport(outputGate);
+        checkPacketPushingOrPullingSupport(inputGate);
+        checkPacketPushingOrPullingSupport(outputGate);
         if (changeIndex < (int)changeTimes.size())
             scheduleChangeTimer();
     }
@@ -112,6 +112,7 @@ bool PacketGate::canPushPacket(Packet *packet, cGate *gate) const
 void PacketGate::pushPacket(Packet *packet, cGate *gate)
 {
     Enter_Method("pushPacket");
+    take(packet);
     if (!isOpen_)
         throw cRuntimeError("Cannot push packet when the gate is closed");
     EV_INFO << "Passing packet " << packet->getName() << "." << endl;
@@ -137,6 +138,7 @@ Packet *PacketGate::pullPacket(cGate *gate)
     if (!isOpen_)
         throw cRuntimeError("Cannot pull packet when the gate is closed");
     auto packet = provider->pullPacket(inputGate->getPathStartGate());
+    take(packet);
     EV_INFO << "Passing packet " << packet->getName() << "." << endl;
     numProcessedPackets++;
     processedTotalLength += packet->getTotalLength();

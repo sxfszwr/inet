@@ -58,8 +58,8 @@ void MarkovClassifier::initialize(int stage)
     }
     else if (stage == INITSTAGE_QUEUEING) {
         for (int i = 0; i < (int)outputGates.size(); i++)
-            checkPackingPushingOrPullingSupport(outputGates[i]);
-        checkPackingPushingOrPullingSupport(inputGate);
+            checkPacketPushingOrPullingSupport(outputGates[i]);
+        checkPacketPushingOrPullingSupport(inputGate);
         if (collectors[state] != nullptr)
             collectors[state]->handleCanPullPacket(outputGates[state]);
         scheduleWaitTimer();
@@ -113,10 +113,11 @@ Packet *MarkovClassifier::pullPacket(cGate *gate)
     if (gate->getIndex() != state)
         throw cRuntimeError("Cannot pull from gate");
     auto packet = provider->pullPacket(inputGate->getPathEndGate());
+    take(packet);
+    animateSend(packet, gate);
     numProcessedPackets++;
     processedTotalLength += packet->getDataLength();
     updateDisplayString();
-    animateSend(packet, gate);
     return packet;
 }
 

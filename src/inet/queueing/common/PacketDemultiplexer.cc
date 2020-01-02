@@ -48,6 +48,7 @@ Packet *PacketDemultiplexer::pullPacket(cGate *gate)
 {
     Enter_Method("pullPacket");
     auto packet = provider->pullPacket(inputGate->getPathStartGate());
+    take(packet);
     EV_INFO << "Forwarding pulled packet " << packet->getName() << "." << endl;
     animateSend(packet, gate);
     numProcessedPackets++;
@@ -61,7 +62,7 @@ void PacketDemultiplexer::handleCanPullPacket(cGate *gate)
     Enter_Method("handleCanPullPacket");
     for (int i = 0; i < (int)outputGates.size(); i++)
         // NOTE: notifying a listener may prevent others from pulling
-        if (provider->canPullSomePacket(inputGate->getPathStartGate()))
+        if (collectors[i] != nullptr && provider->canPullSomePacket(inputGate->getPathStartGate()))
             collectors[i]->handleCanPullPacket(outputGates[i]);
 }
 

@@ -36,14 +36,15 @@ void PacketFilterBase::initialize(int stage)
         droppedTotalLength = b(0);
     }
     else if (stage == INITSTAGE_QUEUEING) {
-        checkPackingPushingOrPullingSupport(inputGate);
-        checkPackingPushingOrPullingSupport(outputGate);
+        checkPacketPushingOrPullingSupport(inputGate);
+        checkPacketPushingOrPullingSupport(outputGate);
     }
 }
 
 void PacketFilterBase::pushPacket(Packet *packet, cGate *gate)
 {
     Enter_Method("pushPacket");
+    take(packet);
     emit(packetPushedSignal, packet);
     if (matchesPacket(packet)) {
         EV_INFO << "Passing through packet " << packet->getName() << "." << endl;
@@ -51,11 +52,76 @@ void PacketFilterBase::pushPacket(Packet *packet, cGate *gate)
     }
     else {
         EV_INFO << "Filtering out packet " << packet->getName() << "." << endl;
-        dropPacket(packet, OTHER_PACKET_DROP);
+        dropPacket(packet);
     }
     numProcessedPackets++;
     processedTotalLength += packet->getTotalLength();
     updateDisplayString();
+}
+
+void PacketFilterBase::pushPacketStart(Packet *packet, cGate *gate)
+{
+    Enter_Method("pushPacketStart");
+    take(packet);
+    emit(packetPushedSignal, packet);
+    if (matchesPacket(packet)) {
+        EV_INFO << "Passing through packet " << packet->getName() << "." << endl;
+        pushOrSendPacketStart(packet, outputGate, consumer);
+    }
+    else {
+        EV_INFO << "Filtering out packet " << packet->getName() << "." << endl;
+        dropPacket(packet);
+    }
+    numProcessedPackets++;
+    processedTotalLength += packet->getTotalLength();
+    updateDisplayString();
+}
+
+void PacketFilterBase::pushPacketEnd(Packet *packet, cGate *gate)
+{
+    Enter_Method("pushPacketEnd");
+    take(packet);
+    emit(packetPushedSignal, packet);
+    if (matchesPacket(packet)) {
+        EV_INFO << "Passing through packet " << packet->getName() << "." << endl;
+        pushOrSendPacketEnd(packet, outputGate, consumer);
+    }
+    else {
+        EV_INFO << "Filtering out packet " << packet->getName() << "." << endl;
+        dropPacket(packet);
+    }
+    consumer->pushPacketEnd(packet, outputGate->getPathEndGate());
+    numProcessedPackets++;
+    processedTotalLength += packet->getTotalLength();
+    updateDisplayString();
+}
+
+void PacketFilterBase::pushPacketProgress(Packet *packet, b position, b extraProcessableLength, cGate *gate)
+{
+    Enter_Method("pushPacketProgress");
+    take(packet);
+    emit(packetPushedSignal, packet);
+    if (matchesPacket(packet)) {
+        EV_INFO << "Passing through packet " << packet->getName() << "." << endl;
+        pushOrSendPacketProgress(packet, position, extraProcessableLength, outputGate, consumer);
+    }
+    else {
+        EV_INFO << "Filtering out packet " << packet->getName() << "." << endl;
+        dropPacket(packet);
+    }
+    numProcessedPackets++;
+    processedTotalLength += packet->getTotalLength();
+    updateDisplayString();
+}
+
+b PacketFilterBase::getPushedPacketProcessedLength(Packet *packet, cGate *gate)
+{
+    return consumer->getPushedPacketProcessedLength(packet, outputGate->getPathEndGate());
+}
+
+void PacketFilterBase::handlePushPacketConfirmation(Packet *packet, cGate *gate, bool successful)
+{
+    producer->handlePushPacketConfirmation(packet, inputGate->getPathStartGate(), successful);
 }
 
 bool PacketFilterBase::canPullSomePacket(cGate *gate) const
@@ -71,8 +137,9 @@ bool PacketFilterBase::canPullSomePacket(cGate *gate) const
             return true;
         else {
             packet = provider->pullPacket(providerGate);
+            const_cast<PacketFilterBase *>(this)->take(packet);
             EV_INFO << "Filtering out packet " << packet->getName() << "." << endl;
-            nonConstThisPtr->dropPacket(packet, OTHER_PACKET_DROP);
+            nonConstThisPtr->dropPacket(packet);
             nonConstThisPtr->numProcessedPackets++;
             nonConstThisPtr->processedTotalLength += packet->getTotalLength();
             updateDisplayString();
@@ -86,6 +153,7 @@ Packet *PacketFilterBase::pullPacket(cGate *gate)
     auto providerGate = inputGate->getPathStartGate();
     while (true) {
         auto packet = provider->pullPacket(providerGate);
+        take(packet);
         numProcessedPackets++;
         processedTotalLength += packet->getTotalLength();
         if (matchesPacket(packet)) {
@@ -97,7 +165,7 @@ Packet *PacketFilterBase::pullPacket(cGate *gate)
         }
         else {
             EV_INFO << "Filtering out packet " << packet->getName() << "." << endl;
-            dropPacket(packet, OTHER_PACKET_DROP);
+            dropPacket(packet);
         }
     }
 }
@@ -114,6 +182,11 @@ void PacketFilterBase::handleCanPullPacket(cGate *gate)
     Enter_Method("handleCanPullPacket");
     if (collector != nullptr)
         collector->handleCanPullPacket(outputGate);
+}
+
+void PacketFilterBase::dropPacket(Packet *packet)
+{
+    dropPacket(packet, OTHER_PACKET_DROP);
 }
 
 void PacketFilterBase::dropPacket(Packet *packet, PacketDropReason reason, int limit)
