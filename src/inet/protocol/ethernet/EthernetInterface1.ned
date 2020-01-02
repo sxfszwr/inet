@@ -1,0 +1,126 @@
+//
+// Copyright (C) OpenSim Ltd.
+//
+// This program is free software; you can redistribute it and/or
+// modify it under the terms of the GNU Lesser General Public License
+// as published by the Free Software Foundation; either version 2
+// of the License, or (at your option) any later version.
+//
+// This program is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// GNU Lesser General Public License for more details.
+//
+// You should have received a copy of the GNU Lesser General Public License
+// along with this program; if not, see http://www.gnu.org/licenses/.
+//
+
+package inet.protocol.ethernet;
+
+import inet.linklayer.contract.IEthernetInterface;
+import inet.networklayer.common.InterfaceEntry;
+import inet.protocol.InterPacketGap;
+import inet.protocol.PacketSerializer;
+import inet.protocol.Padding;
+import inet.protocol.checksum.FcsInsertion;
+import inet.protocol.checksum.FcsVerification;
+import inet.protocol.transceiver.StartStopReceiver;
+import inet.protocol.transceiver.StartStopTransmitter;
+import inet.queueing.queue.PacketQueue;
+import inet.queueing.server.InstantServer;
+
+
+module EthernetInterface1 extends InterfaceEntry like IEthernetInterface
+{
+    parameters:
+        bool broadcast = default(true);
+        bool multicast = default(true);
+        string address = default("auto");
+        double bitrate @unit(bps);
+        string interfaceTableModule;
+        @class(InterfaceEntry);
+        @display("i=block/ifcard");
+    gates:
+        input upperLayerIn;
+        output upperLayerOut;
+        inout phys;
+    submodules:
+        queue: PacketQueue {
+            parameters:
+                @display("p=150,100");
+        }
+        server: InstantServer {
+            parameters:
+                @display("p=150,200");
+        }
+        typeOrLengthInsertion: TypeOrLengthInsertion {
+            parameters:
+                @display("p=150,300");
+        }
+        addressInsertion: AddressInsertion {
+            parameters:
+                @display("p=150,400");
+        }
+        padding: Padding {
+            parameters:
+                @display("p=150,500");
+        }
+        fcsInsertion: FcsInsertion {
+            parameters:
+                @display("p=150,600");
+        }
+        preambleInsertion: PreambleInsertion {
+            parameters:
+                @display("p=150,700");
+        }
+        ifg: InterPacketGap {
+            parameters:
+                @display("p=150,800");
+        }
+        serializer: PacketSerializer {
+            parameters:
+                @display("p=150,900");
+        }
+        transmitter: StartStopTransmitter {
+            parameters:
+                @display("p=150,1000");
+        }
+        typeOrLengthChecking: TypeOrLengthChecking {
+            parameters:
+                @display("p=450,100");
+        }
+        addressChecking: AddressChecking {
+            parameters:
+                @display("p=450,200");
+        }
+        fcsVerification: FcsVerification {
+            parameters:
+                @display("p=450,600");
+        }
+        preambleChecker: PreambleChecker {
+            parameters:
+                @display("p=450,800");
+        }
+        receiver: StartStopReceiver {
+            parameters:
+                @display("p=450,1000");
+        }
+    connections:
+        upperLayerIn --> queue.in;
+        queue.out --> server.in;
+        server.out --> typeOrLengthInsertion.in;
+        typeOrLengthInsertion.out --> addressInsertion.in;
+        addressInsertion.out --> padding.in;
+        padding.out --> fcsInsertion.in;
+        fcsInsertion.out --> preambleInsertion.in;
+        preambleInsertion.out --> ifg.in;
+        ifg.out --> serializer.in;
+        serializer.out --> transmitter.in;
+        transmitter.out --> phys$o;
+        phys$i --> receiver.in;
+        receiver.out --> preambleChecker.in;
+        preambleChecker.out --> fcsVerification.in;
+        fcsVerification.out --> addressChecking.in;
+        addressChecking.out --> typeOrLengthChecking.in;
+        typeOrLengthChecking.out --> upperLayerOut;
+}

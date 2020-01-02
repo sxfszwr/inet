@@ -396,6 +396,11 @@ EthernetSignal *EtherPhy::encapsulate(Packet *packet)
     auto signal = new EthernetSignal(packet->getName());
     signal->setSrcMacFullDuplex(duplexMode);
     signal->setBitrate(bitrate);
+    if (sendRawBytes) {
+        const auto& content = packet->peekAllAsBytes();
+        packet->eraseAll();
+        packet->insertAtFront(content);
+    }
     signal->encapsulate(packet);
     return signal;
 }
@@ -544,8 +549,8 @@ void EtherPhy::startRx(EthernetSignalBase *signal)
 
 void EtherPhy::endRx(EthernetSignalBase *signal)
 {
-    if (signal->getSrcMacFullDuplex() != duplexMode)
-        throw cRuntimeError("Ethernet misconfiguration: MACs on the same link must be all in full duplex mode, or all in half-duplex mode");
+//    if (signal->getSrcMacFullDuplex() != duplexMode)
+//        throw cRuntimeError("Ethernet misconfiguration: MACs on the same link must be all in full duplex mode, or all in half-duplex mode");
     if (signal->getBitrate() != bitrate)
         throw cRuntimeError("Ethernet misconfiguration: MACs on the same link must be same bitrate %f Mbps (sender:%s, %f Mbps)", bitrate/1e6, signal->getSenderModule()->getFullPath().c_str(), signal->getBitrate()/1e6);
 
