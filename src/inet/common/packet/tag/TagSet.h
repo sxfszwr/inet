@@ -119,11 +119,13 @@ inline int TagSet::getTagIndex() const
 template <typename T>
 inline T *TagSet::findTag() const
 {
+#ifdef __INET_SELFDOC_H
     {
         std::ostringstream os;
         os << "=SelfDoc=" << getSimulation()->getContextModule()->getComponentType()->getFullName() << ": TAG: findTag " << opp_typename(typeid(T));
         globalSelfDoc.insert(os.str());
     }
+#endif // __INET_SELFDOC_H
     int index = getTagIndex<T>();
     return index == -1 ? nullptr : static_cast<T *>((*tags)[index]);
 }
