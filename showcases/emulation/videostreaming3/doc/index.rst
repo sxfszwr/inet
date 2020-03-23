@@ -206,7 +206,7 @@ To start the simulation and the VLC instances, run the ``run.sh`` script:
 
   $ ./run.sh
 
-The script starts the simulation, and the video plays. Its not very high quality **TODO**
+.. The script starts the simulation, and the video plays. Its not very high quality **TODO**
 
   so
 
@@ -219,13 +219,18 @@ The script starts the simulation, and the video plays. Its not very high quality
   - so i dont know
   - experiment with the settings
 
-The script starts the simulation in Cmdenv; the streaming VLC client is also started in command line mode.
-The playback VLC displays the received video stream. The received video is lower quality than the original video file,
-because it's downscaled, and the bitrate is reduced, so that the playback is smooth (emulating the network is CPU-intensive). **TODO** it is cpu intensive.
-The bitrate and the downscaling is controlled by the script; the user can experiment with other settings **TODO**
+  The script starts the simulation in Cmdenv; the streaming VLC client is also started in command line mode.
+  The playback VLC displays the received video stream. The received video is lower quality than the original video file,
+  because it's downscaled, and the bitrate is reduced, so that the playback is smooth (emulating the network is CPU-intensive). **TODO** it is cpu intensive.
+  The bitrate and the downscaling is controlled by the script; the user can experiment with other settings **TODO**
 
-emulating the network is CPU-intensive
-this is the quality that was still smooth on our test PC. on a faster computer it might be better -> experiment
+  emulating the network is CPU-intensive
+  this is the quality that was still smooth on our test PC. on a faster computer it might be better -> experiment
+
+The script starts the simulation in Cmdenv; the streaming VLC client is also started in command line mode. The received video stream is played by the other VLC instance. The received video is lower quality than the original video file,
+because it's downscaled, and the bitrate is reduced, so that the playback is smooth.
+
+.. note:: Emulating the network is CPU-intensive. The downscaling and bitrate settings were to chosen to lead to smooth playback on the PC we tested the showcase on. However, it might be able to work in higher quality on a faster machine; the user can experiment with different encoding settings for the VLC streaming instance by editing them in the run script.
 
 .. TODO wireshark
 
@@ -238,4 +243,4 @@ Here are some of the packets captured in Wireshark:
 Note that there are packets sent from the ``tapa`` (192.168.2.20) interface to the router's ``eth0`` (192.168.2.99) interface,
 and also packets sent from the router's ``eth1`` (192.168.3.99) interface to ``tapb`` (192.168.3.20).
 
-**TODO** the video is downscaled/the quality is not the original because performance reasons
+.. **TODO** the video is downscaled/the quality is not the original because performance reasons
