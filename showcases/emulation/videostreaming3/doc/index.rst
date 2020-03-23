@@ -7,9 +7,9 @@ Goals
 In this showcase, we'll use real applications which communicate over a simulated network.
 This feature is useful for testing how real applications work over the network, without having to set up a physical network. The simulated network can be easily configured for various topologies and behaviors to test a variety of cases.
 
-We'll use INET's emulation features to interface the real world (the host OS environment) with the simulation.
-INET has various modules which facilitate this interfacing, read about them in the :doc:`Emulation section </showcases/emulation/index>` of the showcases page.
-In this scenario, we'll use a real video application to stream video to another real video application.
+We'll use INET's emulation features/support **TODO** to interface the real world (the host OS environment) with the simulation.
+INET has various modules which facilitate this interfacing, you can read about them in the :doc:`Emulation section </showcases/emulation/index>` of the showcases page.
+In this scenario, we'll use a real video application to stream a video file to another real video application.
 
 .. In the simulation scenario, a VLC instance streams video via the simulated network to another VLC instance.
 
@@ -21,9 +21,11 @@ Note that this showcase requires the ``Emulation`` feature of the INET Framework
 The Model
 ---------
 
-The simulation scenario is illustrated with the following topological/theoretical/? schematic:
+The simulation scenario is illustrated with the following theoretical schematic:
 
-**TODO** meaning that this is the logical overview of the setup; which parts are simulated which are real and how they are interfaced is another layer on top of this; there are multiple ways to do that, e.g. at the link layer, or transport layer, etc. Actually, this layer is another layer on this schematic as well (blue).
+  **TODO** meaning that this is the logical overview of the setup; which parts are simulated which are real and how they are interfaced is another layer on top of this; there are multiple ways to do that, e.g. at the link layer, or transport layer, etc. Actually, this layer is another layer on this schematic as well (blue).
+
+.. The simulation scenario is illustrated with the following topological/theoretical/? schematic:
 
 .. so
 
@@ -60,13 +62,13 @@ Note that the real and simulated parts can be separated at other levels of the p
 In reality, the real parts of the sender and receiver hosts are the same machine, as both use the protocol stack of the host OS:
 **TODO** even though logically they are different hosts (they can actaully be on different machines TODO)
 
-**TODO** schematic
+.. **TODO** schematic
 
 .. figure:: media/actualsetup.png
    :width: 50%
    :align: center
 
-We'll use a VLC instance in the sender host to stream a video file. The packets travel down the host os protocol stack and enter the simulation at the Ethernet interface. Then they traverse the simulated network, enter the receiver host's Ethernet interface, and are injected into the host os protocol stack, and travel up to another VLC instance which plays the video.
+We'll use a VLC instance in the sender host to stream a video file. The packets created by VLC travel down the host os protocol stack and enter the simulation at the Ethernet interface. Then they traverse the simulated network, enter the receiver host's Ethernet interface, and are injected into the host os protocol stack, and travel up to another VLC instance which plays the video.
 
 The network for the simulation is the following:
 
@@ -93,7 +95,7 @@ It contains two :ned:`StandardHost`'s. Each host is connected by an :ned:`EtherS
   - the configuration
   - the scripts start the simulation and the streaming
 
-The sender application will stream the video to the address of the router in the simulation.
+The sender VLC application will stream the video to the address of the router's ``eth0`` in the simulation.
 The router will perform network address translation to rewrite the destination address to the address of the receiver host's Ext/Tap interface.
 
 This is required so that the video packets enter the simulated network; if they were sent to the receiver host's ext/tap interface, they would go through the loopback interface.
@@ -146,7 +148,7 @@ In the configuration in omnetpp.ini, the scheduler class is set to ``RealTimeSch
 
 .. The ethernet interface type in both hosts is set to :ned:`ExtUpperEthernetInterface`:
 
-The hosts are configured to have an :ned:`ExtUpperEthernetInterface`, and to use the TAP devices which were created by the setup script. The script assigned IP addresses to the TAP interfaces; the tap interfaces are set to copy the addresses from the tap interfaces:
+The hosts are configured to have an :ned:`ExtUpperEthernetInterface`, and to use the TAP devices which were created by the setup script. The setup script assigned IP addresses to the TAP interfaces; the EXT interfaces are configured to copy the addresses from the tap interfaces:
 
 .. literalinclude:: ../omnetpp.ini
    :language: ini
@@ -160,7 +162,7 @@ The addresses in the network are important; the configurator is set to assign th
    :start-at: configurator
    :end-at: /config
 
-Also, the CRC and FCS need to be set to ``computed`` to properly serialize/deserialize packets.
+Also, the CRC and FCS need to be set to ``computed`` to properly serialize/deserialize packets./in ethernet/udp? **TODO**
 
 .. need to calculate CRC/FCS to properly serialize/deserialize packets TODO:
 
