@@ -7,7 +7,7 @@ Goals
 In this showcase, we'll use real applications which communicate over a simulated network.
 This feature is useful for testing how real applications work over the network, without having to set up a physical network. The simulated network can be easily configured for various topologies and behaviors to test a variety of cases.
 
-We'll use INET's emulation features/support **TODO** to interface the real world (the host OS environment) with the simulation.
+We'll use INET's emulation feature to interface the real world (the host OS environment) with the simulation.
 INET has various modules which facilitate this interfacing, you can read about them in the :doc:`Emulation section </showcases/emulation/index>` of the showcases page.
 In this scenario, we'll use a real video application to stream a video file to another real video application.
 
@@ -59,14 +59,15 @@ Note that the real and simulated parts can be separated at other levels of the p
 
 .. **V1** Note that the in reality, the real parts of the sender and receiver hosts are the same machine, as both use the protocol stack of the host OS:
 
-In reality, the real parts of the sender and receiver hosts are the same machine, as both use the protocol stack of the host OS:
-**TODO** even though logically they are different hosts (they can actaully be on different machines TODO)
+In reality, the real parts of the sender and receiver hosts are the same machine, as both use the protocol stack of the host OS (even though in this scenario logically they are different hosts):
 
 .. **TODO** schematic
 
 .. figure:: media/actualsetup.png
    :width: 50%
    :align: center
+
+.. **TODO** even though logically they are different hosts (they can actaully be on different machines TODO) -> not needed
 
 We'll use a VLC instance in the sender host to stream a video file. The packets created by VLC travel down the host os protocol stack and enter the simulation at the Ethernet interface. Then they traverse the simulated network, enter the receiver host's Ethernet interface, and are injected into the host os protocol stack, and travel up to another VLC instance which plays the video.
 
@@ -96,19 +97,19 @@ It contains two :ned:`StandardHost`'s. Each host is connected by an :ned:`EtherS
   - the scripts start the simulation and the streaming
 
 The sender VLC application will stream the video to the address of the router's ``eth0`` in the simulation.
-The router will perform network address translation to rewrite the destination address to the address of the receiver host's Ext/Tap interface.
+The router will perform network address translation to rewrite the destination address to the address of the receiver host's EXT/TAP interface.
 
-This is required so that the video packets enter the simulated network; if they were sent to the receiver host's ext/tap interface, they would go through the loopback interface.
+This is required so that the video packets enter the simulated network; if they were sent to the receiver host's EXT/TAP interface, they would go through the loopback interface.
 
 .. **V2** This is required so that the video packets enter the simulation, instead of going through the loopback interface.
 
 Three shell scripts in the showcase's directory can be used to control the emulation scenario.
-The ``setup.sh`` script creates the tap interfaces, assigns IP addresses to them, and brings them up:
+The ``setup.sh`` script creates the TAP interfaces, assigns IP addresses to them, and brings them up:
 
 .. literalinclude:: ../setup.sh
    :language: bash
 
-The ``teardown.sh`` script does the opposite; it destroys the tap interfaces when they're no longer needed.
+The ``teardown.sh`` script does the opposite; it destroys the TAP interfaces when they're no longer needed.
 
 .. user is done playing with this whole thing TODO.
 
@@ -148,7 +149,7 @@ In the configuration in omnetpp.ini, the scheduler class is set to ``RealTimeSch
 
 .. The ethernet interface type in both hosts is set to :ned:`ExtUpperEthernetInterface`:
 
-The hosts are configured to have an :ned:`ExtUpperEthernetInterface`, and to use the TAP devices which were created by the setup script. The setup script assigned IP addresses to the TAP interfaces; the EXT interfaces are configured to copy the addresses from the tap interfaces:
+The hosts are configured to have an :ned:`ExtUpperEthernetInterface`, and to use the TAP devices which were created by the setup script. The setup script assigned IP addresses to the TAP interfaces; the EXT interfaces are configured to copy the addresses from the TAP interfaces:
 
 .. literalinclude:: ../omnetpp.ini
    :language: ini
@@ -162,7 +163,9 @@ The addresses in the network are important; the configurator is set to assign th
    :start-at: configurator
    :end-at: /config
 
-Also, the CRC and FCS need to be set to ``computed`` to properly serialize/deserialize packets./in ethernet/udp? **TODO**
+Also, the CRC and FCS need to be set to ``computed`` to properly serialize/deserialize packets.
+
+.. Also, the CRC and FCS need to be set to ``computed`` to properly serialize/deserialize packets./in ethernet/udp/and other protocols like ipv4? **TODO**
 
 .. need to calculate CRC/FCS to properly serialize/deserialize packets TODO:
 
@@ -203,12 +206,36 @@ To start the simulation and the VLC instances, run the ``run.sh`` script:
 
   $ ./run.sh
 
-The script starts the simulation, and the video plays. Its not very high quality TODO
+The script starts the simulation, and the video plays. Its not very high quality **TODO**
 
-TODO wireshark
+  so
+
+  - the streaming VLC is run in command line mode...the script runs it in command line mode
+  - the playing VLC is playing the video
+  - note that its downscaled so that the playback is smooth
+  - the simulation is cpu intensive
+  - actually, it cant run in better quality in this machine
+  - but on a more powerful machine it might
+  - so i dont know
+  - experiment with the settings
+
+The script starts the simulation in Cmdenv; the streaming VLC client is also started in command line mode.
+The playback VLC displays the received video stream. The received video is lower quality than the original video file,
+because it's downscaled, and the bitrate is reduced, so that the playback is smooth (emulating the network is CPU-intensive). **TODO** it is cpu intensive.
+The bitrate and the downscaling is controlled by the script; the user can experiment with other settings **TODO**
+
+emulating the network is CPU-intensive
+this is the quality that was still smooth on our test PC. on a faster computer it might be better -> experiment
+
+.. TODO wireshark
+
+Here are some of the packets captured in Wireshark:
 
 .. figure:: media/wireshark.png
    :width: 100%
    :align: center
 
-TODO the video is downscaled/the quality is not the original because performance reasons
+Note that there are packets sent from the ``tapa`` (192.168.2.20) interface to the router's ``eth0`` (192.168.2.99) interface,
+and also packets sent from the router's ``eth1`` (192.168.3.99) interface to ``tapb`` (192.168.3.20).
+
+**TODO** the video is downscaled/the quality is not the original because performance reasons
