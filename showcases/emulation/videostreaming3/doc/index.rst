@@ -23,7 +23,7 @@ The Model
 
 The simulation scenario is illustrated with the following theoretical schematic:
 
-  **TODO** meaning that this is the logical overview of the setup; which parts are simulated which are real and how they are interfaced is another layer on top of this; there are multiple ways to do that, e.g. at the link layer, or transport layer, etc. Actually, this layer is another layer on this schematic as well (blue).
+.. **TODO** meaning that this is the logical overview of the setup; which parts are simulated which are real and how they are interfaced is another layer on top of this; there are multiple ways to do that, e.g. at the link layer, or transport layer, etc. Actually, this layer is another layer on this schematic as well (blue).
 
 .. The simulation scenario is illustrated with the following topological/theoretical/? schematic:
 
@@ -185,8 +185,8 @@ Also, the CRC and FCS need to be set to ``computed`` to properly serialize/deser
   - and ip addresses in the network
   - cos we'll use that to send the video file -> its needed so that the packets get into the simulation/simulated network
 
-Running
--------
+Running/Results
+---------------
 
 Before running the emulation scenario, run ``setenv`` in the `omnetpp` and `inet` directories,
 and run the ``setup.sh`` script in the showcase's folder:
@@ -244,3 +244,13 @@ Note that there are packets sent from the ``tapa`` (192.168.2.20) interface to t
 and also packets sent from the router's ``eth1`` (192.168.3.99) interface to ``tapb`` (192.168.3.20).
 
 .. **TODO** the video is downscaled/the quality is not the original because performance reasons
+
+Sources: :download:`omnetpp.ini <../omnetpp.ini>`, :download:`VideostreamingShowcaseNetwork.ned <../VideostreamingShowcaseNetwork.ned>`,
+:download:`run.sh <../run.sh>`, :download:`setup.sh <../setup.sh>`, :download:`teardown.sh <../teardown.sh>`
+
+Discussion
+----------
+
+Use `this
+page <https://github.com/inet-framework/inet-showcases/issues/TODO>`__ in
+the GitHub issue tracker for commenting on this showcase.
