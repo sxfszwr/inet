@@ -113,6 +113,7 @@ The following showcases demonstrate several such emulation examples:
 
    basic/doc/index
    voip/doc/index
+   videostreaming3/doc/index
    babel/doc/index
 
 
