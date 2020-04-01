@@ -3,9 +3,9 @@ package inet.showcases.wireless.analogmodel;
 import inet.networklayer.configurator.ipv4.Ipv4NetworkConfigurator;
 import inet.node.inet.AdhocHost;
 import inet.node.inet.ManetRouter;
-import inet.node.inet.WirelessHost;
 import inet.physicallayer.common.packetlevel.NoiseSource;
 import inet.physicallayer.ieee80211.packetlevel.Ieee80211DimensionalRadioMedium;
+import inet.physicallayer.ieee80211.packetlevel.Ieee80211ScalarRadioMedium;
 import inet.physicallayer.unitdisk.UnitDiskRadioMedium;
 import inet.visualizer.integrated.IntegratedMultiVisualizer;
 import inet.visualizer.integrated.IntegratedVisualizer;
@@ -89,6 +89,11 @@ network AnalogModelShowcaseRoutingNetwork3
         }
 }
 
+//network AnalogModelShowcaseDistanceNetwork
+//{
+//    @display("bgb=400,400");
+//}
+
 network AnalogModelShowcaseNoiseNetwork
 {
     @display("bgb=400,400");
@@ -117,5 +122,31 @@ network AnalogModelShowcaseNoiseNetwork
         }
         noiseSource: NoiseSource {
             @display("p=307,133");
+        }
+}
+
+network AnalogModelShowcaseDistanceNetwork
+{
+    parameters:
+        @display("bgb=901.5187,376.65");
+    submodules:
+        visualizer: IntegratedVisualizer {
+            parameters:
+                @display("p=64.256,62.247997");
+        }
+        configurator: Ipv4NetworkConfigurator {
+            parameters:
+                @display("p=64.256,180.72");
+        }
+        radioMedium: Ieee80211ScalarRadioMedium {
+            parameters:
+                @display("p=62.247997,287.14398");
+        }
+        destination: AdhocHost {
+            parameters:
+                @display("p=500,179.60625");
+        }
+        source: AdhocHost {
+            @display("p=363.448,180.72");
         }
 }
