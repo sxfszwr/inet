@@ -24,5 +24,5 @@ simple PreemptingServer extends PacketServerBase
         int roundingLength @unit(b) = default(1B);
         @class(PreemptingServer);
     gates:
-        output preemtedOut;
+        output preemptedOut;
 }

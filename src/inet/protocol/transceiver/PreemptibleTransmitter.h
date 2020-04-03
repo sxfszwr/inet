@@ -13,8 +13,8 @@
 // along with this program.  If not, see http://www.gnu.org/licenses/.
 //
 
-#ifndef __INET_PREEMTABLETRANSMITTER_H
-#define __INET_PREEMTABLETRANSMITTER_H
+#ifndef __INET_PREEMPTIBLETRANSMITTER_H
+#define __INET_PREEMPTIBLETRANSMITTER_H
 
 #include "inet/physicallayer/common/packetlevel/Signal.h"
 #include "inet/queueing/base/PassivePacketSinkBase.h"
@@ -26,7 +26,7 @@ using namespace inet::units::values;
 using namespace inet::queueing;
 using namespace inet::physicallayer;
 
-class INET_API PreemtableTransmitter : public PassivePacketSinkBase
+class INET_API PreemptibleTransmitter : public PassivePacketSinkBase
 {
   protected:
     cGate *inputGate = nullptr;
@@ -51,7 +51,7 @@ class INET_API PreemtableTransmitter : public PassivePacketSinkBase
     virtual void scheduleTxEndTimer(Signal *signal, simtime_t timePosition);
 
   public:
-    virtual ~PreemtableTransmitter();
+    virtual ~PreemptibleTransmitter();
 
     virtual bool supportsPushPacket(cGate *gate) const override { return gate == inputGate; }
     virtual bool supportsPopPacket(cGate *gate) const override { return false; }
@@ -68,5 +68,5 @@ class INET_API PreemtableTransmitter : public PassivePacketSinkBase
 
 } // namespace inet
 
-#endif // ifndef __INET_PREEMTABLETRANSMITTER_H
+#endif // ifndef __INET_PREEMPTIBLETRANSMITTER_H
 

@@ -32,11 +32,11 @@ void PreemptingServer::initialize(int stage)
     if (stage == INITSTAGE_LOCAL) {
         minPacketLength = b(par("minPacketLength"));
         roundingLength = b(par("roundingLength"));
-        preemtedOutputGate = gate("preemtedOut");
-        preemtedConsumer = getConnectedModule<IPassivePacketSink>(preemtedOutputGate);
+        preemptedOutputGate = gate("preemptedOut");
+        preemptedConsumer = getConnectedModule<IPassivePacketSink>(preemptedOutputGate);
     }
     else if (stage == INITSTAGE_QUEUEING) {
-        checkPushPacketSupport(preemtedOutputGate);
+        checkPushPacketSupport(preemptedOutputGate);
     }
 }
 
@@ -94,14 +94,14 @@ void PreemptingServer::handleCanPopPacket(cGate *gate)
         auto nextPacket = provider->canPopPacket(inputGate->getPathStartGate());
         if (packet != nullptr && getPriority(nextPacket) > getPriority(packet)) {
             b confirmedLength = consumer->getPushedPacketConfirmedLength(packet, outputGate->getPathEndGate());
-            b preemtedLength = roundingLength * ((confirmedLength + roundingLength - b(1)) / roundingLength);
-            if (preemtedLength < minPacketLength)
-                preemtedLength = minPacketLength;
-            if (preemtedLength + minPacketLength <= packet->getTotalLength()) {
+            b preemptedLength = roundingLength * ((confirmedLength + roundingLength - b(1)) / roundingLength);
+            if (preemptedLength < minPacketLength)
+                preemptedLength = minPacketLength;
+            if (preemptedLength + minPacketLength <= packet->getTotalLength()) {
                 std::string name = std::string(packet->getName()) + "-frag";
                 // confirmed part
                 packet->setName(name.c_str());
-                const auto& remainingData = packet->removeAtBack(packet->getTotalLength() - preemtedLength);
+                const auto& remainingData = packet->removeAtBack(packet->getTotalLength() - preemptedLength);
                 FragmentTag *fragmentTag = packet->getTag<FragmentTag>();
                 fragmentTag->setLastFragment(false);
                 // remaining part
@@ -113,9 +113,9 @@ void PreemptingServer::handleCanPopPacket(cGate *gate)
                 remainingPartFragmentTag->setFragmentNumber(fragmentTag->getFragmentNumber() + 1);
                 // send parts
                 animateSend(packet, outputGate);
-                consumer->pushPacketProgress(packet, preemtedLength, packet->getTotalLength() - preemtedLength, outputGate->getPathEndGate());
+                consumer->pushPacketProgress(packet, preemptedLength, packet->getTotalLength() - preemptedLength, outputGate->getPathEndGate());
                 packet = nullptr;
-                pushOrSendPacket(remainingPart, preemtedOutputGate, preemtedConsumer);
+                pushOrSendPacket(remainingPart, preemptedOutputGate, preemptedConsumer);
             }
         }
     }

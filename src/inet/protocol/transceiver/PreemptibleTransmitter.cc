@@ -15,14 +15,13 @@
 
 #include "inet/common/ModuleAccess.h"
 #include "inet/common/ProtocolTag_m.h"
-#include "inet/protocol/transceiver/PreemtableTransmitter.h"
+#include "inet/protocol/transceiver/PreemptibleTransmitter.h"
 
 namespace inet {
 
-Define_Module(PreemtableTransmitter);
+Define_Module(PreemptibleTransmitter);
 
-// TODO: rename to PreemptableTransmitter
-void PreemtableTransmitter::initialize(int stage)
+void PreemptibleTransmitter::initialize(int stage)
 {
     PassivePacketSinkBase::initialize(stage);
     if (stage == INITSTAGE_LOCAL) {
@@ -34,12 +33,12 @@ void PreemtableTransmitter::initialize(int stage)
     }
 }
 
-PreemtableTransmitter::~PreemtableTransmitter()
+PreemptibleTransmitter::~PreemptibleTransmitter()
 {
     cancelAndDelete(txEndTimer);
 }
 
-void PreemtableTransmitter::handleMessage(cMessage *message)
+void PreemptibleTransmitter::handleMessage(cMessage *message)
 {
     if (message == txEndTimer)
         endTx();
@@ -47,7 +46,7 @@ void PreemtableTransmitter::handleMessage(cMessage *message)
         throw cRuntimeError("Unknown message");
 }
 
-void PreemtableTransmitter::pushPacket(Packet *packet, cGate *gate)
+void PreemptibleTransmitter::pushPacket(Packet *packet, cGate *gate)
 {
     Enter_Method("pushPacket");
     take(packet);
@@ -56,14 +55,14 @@ void PreemtableTransmitter::pushPacket(Packet *packet, cGate *gate)
     startTx(packet);
 }
 
-void PreemtableTransmitter::pushPacketStart(Packet *packet, cGate *gate)
+void PreemptibleTransmitter::pushPacketStart(Packet *packet, cGate *gate)
 {
     Enter_Method("pushPacketStart");
     take(packet);
     startTx(packet);
 }
 
-void PreemtableTransmitter::pushPacketProgress(Packet *packet, b position, b extraProcessableLength, cGate *gate)
+void PreemptibleTransmitter::pushPacketProgress(Packet *packet, b position, b extraProcessableLength, cGate *gate)
 {
     Enter_Method("pushPacketProgress");
     simtime_t timePosition = simTime() - txStartTime;
@@ -83,13 +82,13 @@ void PreemtableTransmitter::pushPacketProgress(Packet *packet, b position, b ext
     scheduleTxEndTimer(signal, timePosition);
 }
 
-void PreemtableTransmitter::pushPacketEnd(Packet *packet, cGate *gate)
+void PreemptibleTransmitter::pushPacketEnd(Packet *packet, cGate *gate)
 {
     Enter_Method("pushPacketEnd");
     throw cRuntimeError("TODO");
 }
 
-void PreemtableTransmitter::startTx(Packet *packet)
+void PreemptibleTransmitter::startTx(Packet *packet)
 {
     ASSERT(txPacket == nullptr);
     txPacket = packet;
@@ -108,7 +107,7 @@ void PreemtableTransmitter::startTx(Packet *packet)
     sendPacketStart(signal, outputGate, duration);
 }
 
-void PreemtableTransmitter::endTx()
+void PreemptibleTransmitter::endTx()
 {
     EV_INFO << "Ending transmission: packetName = " << txPacket->getName() << std::endl;
     auto duration = calculateDuration(txPacket);
@@ -123,7 +122,7 @@ void PreemtableTransmitter::endTx()
     producer->handleCanPushPacket(inputGate->getPathStartGate());
 }
 
-void PreemtableTransmitter::abortTx()
+void PreemptibleTransmitter::abortTx()
 {
     cancelEvent(txEndTimer);
     b transmittedLength = getPushedPacketConfirmedLength(txPacket, inputGate);
@@ -140,19 +139,19 @@ void PreemtableTransmitter::abortTx()
     producer->handleCanPushPacket(inputGate->getPathStartGate());
 }
 
-simtime_t PreemtableTransmitter::calculateDuration(Packet *packet)
+simtime_t PreemptibleTransmitter::calculateDuration(Packet *packet)
 {
     return packet->getTotalLength().get() / datarate.get();
 }
 
-void PreemtableTransmitter::scheduleTxEndTimer(Signal *signal, simtime_t timePosition)
+void PreemptibleTransmitter::scheduleTxEndTimer(Signal *signal, simtime_t timePosition)
 {
     if (txEndTimer->isScheduled())
         cancelEvent(txEndTimer);
     scheduleAt(simTime() + signal->getDuration() - timePosition, txEndTimer);
 }
 
-b PreemtableTransmitter::getPushedPacketConfirmedLength(Packet *packet, cGate *gate)
+b PreemptibleTransmitter::getPushedPacketConfirmedLength(Packet *packet, cGate *gate)
 {
     simtime_t transmissionDuration = simTime() - txStartTime;
     return b(std::floor(datarate.get() * transmissionDuration.dbl()));

@@ -17,11 +17,11 @@ package inet.protocol.transceiver;
 
 import inet.queueing.base.PacketSinkBase;
 
-simple PreemtableTransmitter extends PacketSinkBase
+simple PreemptibleTransmitter extends PacketSinkBase
 {
     parameters:
         double datarate @unit(bps);
-        @class(PreemtableTransmitter);
+        @class(PreemptibleTransmitter);
         @display("i=block/wtx");
     gates:
         input in;

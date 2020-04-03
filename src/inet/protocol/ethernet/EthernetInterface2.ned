@@ -21,7 +21,7 @@ import inet.common.MessageDispatcher;
 import inet.protocol.fragmentation.Defragmenter;
 import inet.protocol.queue.InProgressQueue;
 import inet.protocol.server.PreemptingServer;
-import inet.protocol.transceiver.PreemtableTransmitter;
+import inet.protocol.transceiver.PreemptibleTransmitter;
 import inet.protocol.transceiver.Receiver;
 import inet.queueing.classifier.PacketClassifier;
 import inet.queueing.common.PacketCloner;
@@ -167,7 +167,7 @@ module EthernetInterface2
             parameters:
                 @display("p=150,1200");
         }
-        preemptableTransmitter: PreemtableTransmitter {
+        preemptableTransmitter: PreemptibleTransmitter {
             parameters:
                 @display("p=150,1300");
         }
@@ -218,7 +218,7 @@ module EthernetInterface2
         multiplexer3.out --> inProgressQueue.in;
         inProgressQueue.out --> preemptingServer.in;
         preemptingServer.out --> fcsInserter.in;
-        preemptingServer.preemtedOut --> multiplexer3.in++;
+        preemptingServer.preemptedOut --> multiplexer3.in++;
         fcsInserter.out --> preambleInserter.in;
         preambleInserter.out --> preemptableTransmitter.in;
         preemptableTransmitter.out --> connectionX.in;

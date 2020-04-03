@@ -26,7 +26,7 @@ import inet.protocol.fragmentation.FixedLengthFragmenter;
 import inet.protocol.ordering.SequenceNumbering;
 import inet.protocol.queue.InProgressQueue;
 import inet.protocol.server.PreemptingServer;
-import inet.protocol.transceiver.PreemtableTransmitter;
+import inet.protocol.transceiver.PreemptibleTransmitter;
 import inet.protocol.transceiver.Receiver;
 import inet.queueing.classifier.ContentBasedClassifier;
 import inet.queueing.common.PacketMultiplexer;
@@ -93,7 +93,7 @@ module SenderHost
         interPacketGap: InterPacketGap {
             @display("p=200,1200");
         }
-        transmitter: PreemtableTransmitter {
+        transmitter: PreemptibleTransmitter {
             @display("p=200,1300");
         }
     connections:
@@ -110,7 +110,7 @@ module SenderHost
         fragmenter.out --> multiplexer2.in++;
         multiplexer2.out --> inProgressQueue.in;
         inProgressQueue.out --> preemptingServer.in;
-        preemptingServer.preemtedOut --> multiplexer2.in++;
+        preemptingServer.preemptedOut --> multiplexer2.in++;
         preemptingServer.out --> crcInserter.in;
         crcInserter.out --> interPacketGap.in;
         interPacketGap.out --> transmitter.in;

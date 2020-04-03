@@ -24,7 +24,7 @@ import inet.protocol.common.PacketEmitter;
 import inet.protocol.common.PaddingInserter;
 import inet.protocol.fragmentation.Defragmenter;
 import inet.protocol.server.PreemptingServer;
-import inet.protocol.transceiver.PreemtableTransmitter;
+import inet.protocol.transceiver.PreemptibleTransmitter;
 import inet.protocol.transceiver.StartStopReceiver;
 import inet.queueing.classifier.PacketClassifier;
 import inet.queueing.common.PacketMultiplexer;
@@ -64,7 +64,7 @@ module EthernetInterfaceP extends InterfaceEntry like IEthernetInterface
         expressQueue: PacketQueue {
             @display("p=100,500");
         }
-        preemtedQueue: PacketQueue {
+        preemptedQueue: PacketQueue {
             @display("p=300,500");
         }
         normalQueue: PacketQueue {
@@ -105,7 +105,7 @@ module EthernetInterfaceP extends InterfaceEntry like IEthernetInterface
             duration = default(96s / dropUnit(bitrate));
             @display("p=300,1300");
         }
-        transmitter: PreemtableTransmitter {
+        transmitter: PreemptibleTransmitter {
             datarate = default(bitrate);
             @display("p=300,1400");
         }
@@ -154,10 +154,10 @@ module EthernetInterfaceP extends InterfaceEntry like IEthernetInterface
         priorityClassifier1.out++ --> normalQueue.in;
         priorityClassifier1.out++ --> expressQueue.in;
         expressQueue.out --> priorityScheduler.in++;
-        preemtedQueue.out --> priorityScheduler.in++;
+        preemptedQueue.out --> priorityScheduler.in++;
         normalQueue.out --> priorityScheduler.in++;
         priorityScheduler.out --> preemptingServer.in;
-        preemptingServer.preemtedOut --> preemtedQueue.in;
+        preemptingServer.preemptedOut --> preemptedQueue.in;
         preemptingServer.out --> priorityClassifier2.in;
         priorityClassifier2.out++ --> fragmentFcsInserter.in;
         priorityClassifier2.out++ --> expressFcsInserter.in;

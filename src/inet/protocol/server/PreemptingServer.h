@@ -27,8 +27,8 @@ class INET_API PreemptingServer : public PacketServerBase
   protected:
     b minPacketLength = b(-1);
     b roundingLength = b(-1);
-    cGate *preemtedOutputGate = nullptr;
-    IPassivePacketSink *preemtedConsumer = nullptr;
+    cGate *preemptedOutputGate = nullptr;
+    IPassivePacketSink *preemptedConsumer = nullptr;
 
     Packet *packet = nullptr;
 
@@ -41,7 +41,7 @@ class INET_API PreemptingServer : public PacketServerBase
     virtual int getPriority(Packet *packet) const;
 
   public:
-    virtual bool supportsPushPacket(cGate *gate) const override { return preemtedOutputGate == gate || PacketServerBase::supportsPushPacket(gate); }
+    virtual bool supportsPushPacket(cGate *gate) const override { return preemptedOutputGate == gate || PacketServerBase::supportsPushPacket(gate); }
 
     virtual void handleCanPushPacket(cGate *gate) override;
     virtual void handleCanPopPacket(cGate *gate) override;
