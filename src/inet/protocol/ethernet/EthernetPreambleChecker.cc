@@ -28,6 +28,12 @@ bool EthernetPreambleChecker::matchesPacket(Packet *packet)
     const auto& header = packet->popAtFront<EthernetPhyHeader>(b(-1), Chunk::PF_ALLOW_INCORRECT + Chunk::PF_ALLOW_IMPROPERLY_REPRESENTED);
     packet->addTagIfAbsent<PacketProtocolTag>()->setProtocol(&Protocol::ethernetMac);
     return header->isCorrect() && header->isProperlyRepresented();
+
+    packet->addTagIfAbsent<DispatchProtocolReq>()->setProtocol(&Protocol::ethernetMac);
+    if (auto interfaceEntry = findContainingNicModule(this))
+        packet->addTagIfAbsent<InterfaceInd>()->setInterfaceId(interfaceEntry->getInterfaceId());
+    return header->getPreambleType() == SFD;
+
 }
 
 void EthernetPreambleChecker::dropPacket(Packet *packet)

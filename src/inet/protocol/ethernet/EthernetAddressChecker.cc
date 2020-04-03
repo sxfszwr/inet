@@ -40,17 +40,23 @@ bool EthernetAddressChecker::matchesPacket(Packet *packet)
     auto destAddress = header->getDest();
     macAddressInd->setSrcAddress(header->getSrc());
     macAddressInd->setDestAddress(destAddress);
-    if (promiscuous || destAddress.isBroadcast())
+
+    if (par("promiscuous").boolValue())
         return true;
-    else if (interfaceEntry != nullptr) {
-        if (destAddress.isMulticast())
-            // TODO check it in the multicast address list
-            return true;
-        else
-            return interfaceEntry->getMacAddress() == destAddress;
+    if (destAddress.isBroadcast())
+        return true;
+    if (destAddress.isMulticast()) {
+        // TODO check it in the multicast address list
+        return true;
     }
-    else
-        return false;
+    if (interfaceEntry != nullptr && destAddress == interfaceEntry->getMacAddress())
+        return true;
+
+    //TODO
+    // should push back header before emit packetdrop signal ??? or else reset packet iterators ???
+    // emit packetdrop: NOT_ADDRESSED_TO_US (base class currently emits OTHER_PACKET_DROP)
+
+    return false;
 }
 
 void EthernetAddressChecker::dropPacket(Packet *packet)

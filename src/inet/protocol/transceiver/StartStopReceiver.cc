@@ -73,3 +73,4 @@ void StartStopReceiver::receivePacketEnd(cPacket *cpacket)
 }
 
 } // namespace inet
+
