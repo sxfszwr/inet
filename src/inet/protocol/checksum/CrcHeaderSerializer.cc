@@ -26,7 +26,7 @@ void CrcHeaderSerializer::serialize(MemoryOutputStream& stream, const Ptr<const 
     const auto& crcHeader = staticPtrCast<const CrcHeader>(chunk);
     auto crcMode = crcHeader->getCrcMode();
     if (crcMode != CRC_DISABLED && crcMode != CRC_COMPUTED)
-        throw cRuntimeError("Cannot serialize CRC header without turned off or properly computed CRC, try changing the value of crcMode parameter for CrcInsertion");
+        throw cRuntimeError("Cannot serialize CRC header without turned off or properly computed CRC, try changing the value of crcMode parameter for CrcInserter");
     stream.writeUint16Be(crcHeader->getCrc());
 }
 

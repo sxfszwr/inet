@@ -19,8 +19,8 @@ package inet.protocol.service;
 
 import inet.protocol.aggregation.Aggregation;
 import inet.protocol.aggregation.Deaggregation;
-import inet.protocol.fragmentation.Defragmentation;
-import inet.protocol.fragmentation.Fragmentation;
+import inet.protocol.fragmentation.Defragmenter;
+import inet.protocol.fragmentation.FixedLengthFragmenter;
 import inet.protocol.ordering.Reordering;
 import inet.protocol.ordering.SequenceNumbering;
 import inet.queueing.contract.IPacketQueue;
@@ -39,7 +39,7 @@ module DataService
         aggregation: Aggregation {
             @display("p=150,100");
         }
-        fragmentation: Fragmentation {
+        fragmenter: FixedLengthFragmenter {
             @display("p=150,200");
         }
         sequenceNumbering: SequenceNumbering {
@@ -54,7 +54,7 @@ module DataService
         deaggregation: Deaggregation {
             @display("p=450,100");
         }
-        defragmentation: Defragmentation {
+        defragmenter: Defragmenter {
             @display("p=450,200");
         }
         reordering: Reordering {
@@ -62,13 +62,13 @@ module DataService
         }
     connections:
         upperLayerIn --> { @display("m=n"); } --> aggregation.in;
-        aggregation.out --> fragmentation.in;
-        fragmentation.out --> sequenceNumbering.in;
+        aggregation.out --> fragmenter.in;
+        fragmenter.out --> sequenceNumbering.in;
         sequenceNumbering.out --> queue.in;
         queue.out --> server.in;
         server.out --> { @display("m=s"); } --> lowerLayerOut;
         lowerLayerIn --> { @display("m=s"); } --> reordering.in;
-        reordering.out --> defragmentation.in;
-        defragmentation.out --> deaggregation.in;
+        reordering.out --> defragmenter.in;
+        defragmenter.out --> deaggregation.in;
         deaggregation.out --> { @display("m=n"); } --> upperLayerOut;
 }

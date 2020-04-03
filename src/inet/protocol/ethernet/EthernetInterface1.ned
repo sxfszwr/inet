@@ -19,11 +19,9 @@ package inet.protocol.ethernet;
 
 import inet.linklayer.contract.IEthernetInterface;
 import inet.networklayer.common.InterfaceEntry;
-import inet.protocol.InterPacketGap;
-import inet.protocol.PacketSerializer;
-import inet.protocol.Padding;
-import inet.protocol.checksum.FcsInsertion;
-import inet.protocol.checksum.FcsVerification;
+import inet.protocol.common.InterPacketGap;
+import inet.protocol.common.PacketSerializer;
+import inet.protocol.common.PaddingInserter;
 import inet.protocol.transceiver.StartStopReceiver;
 import inet.protocol.transceiver.StartStopTransmitter;
 import inet.queueing.queue.PacketQueue;
@@ -33,13 +31,22 @@ import inet.queueing.server.InstantServer;
 module EthernetInterface1 extends InterfaceEntry like IEthernetInterface
 {
     parameters:
+        string interfaceTableModule;
+        string address = default("auto");
         bool broadcast = default(true);
         bool multicast = default(true);
-        string address = default("auto");
-        double bitrate @unit(bps);
-        string interfaceTableModule;
+        bool promiscuous = default(false);  // if true, all packets are received, otherwise only the
+                                            // ones with matching destination MAC address
+        double bitrate @unit(bps) = default(nan bps);
+        int mtu @unit(B) = default(1500B);
+        string fcsMode @enum("declared","computed") = default("declared");
         @class(InterfaceEntry);
         @display("i=block/ifcard");
+        paddingInserter.minLength = 60B;
+        ifg.duration = 96s/dropUnit(bitrate);
+        transmitter.datarate = bitrate;
+        receiver.datarate = bitrate;
+        addressChecker.promiscuous = promiscuous;
     gates:
         input upperLayerIn;
         output upperLayerOut;
@@ -53,31 +60,31 @@ module EthernetInterface1 extends InterfaceEntry like IEthernetInterface
             parameters:
                 @display("p=150,200");
         }
-        typeOrLengthInsertion: TypeOrLengthInsertion {
+        typeOrLengthInserter: EthernetTypeOrLengthInserter {
             parameters:
                 @display("p=150,300");
         }
-        addressInsertion: AddressInsertion {
+        addressInserter: EthernetAddressInserter {
             parameters:
                 @display("p=150,400");
         }
-        padding: Padding {
+        paddingInserter: PaddingInserter {
             parameters:
                 @display("p=150,500");
         }
-        fcsInsertion: FcsInsertion {
+        fcsInserter: EthernetFcsInserter {
             parameters:
                 @display("p=150,600");
         }
-        preambleInsertion: PreambleInsertion {
+        preambleInserter: EthernetPreambleInserter {
             parameters:
                 @display("p=150,700");
         }
-        ifg: InterPacketGap {
+        serializer: PacketSerializer {
             parameters:
                 @display("p=150,800");
         }
-        serializer: PacketSerializer {
+        ifg: InterPacketGap {
             parameters:
                 @display("p=150,900");
         }
@@ -85,19 +92,19 @@ module EthernetInterface1 extends InterfaceEntry like IEthernetInterface
             parameters:
                 @display("p=150,1000");
         }
-        typeOrLengthChecking: TypeOrLengthChecking {
+        typeOrLengthChecker: EthernetTypeOrLengthChecker {
             parameters:
                 @display("p=450,100");
         }
-        addressChecking: AddressChecking {
+        addressChecker: EthernetAddressChecker {
             parameters:
                 @display("p=450,200");
         }
-        fcsVerification: FcsVerification {
+        fcsChecker: EthernetFcsChecker {
             parameters:
                 @display("p=450,600");
         }
-        preambleChecker: PreambleChecker {
+        preambleChecker: EthernetPreambleChecker {
             parameters:
                 @display("p=450,800");
         }
@@ -105,22 +112,25 @@ module EthernetInterface1 extends InterfaceEntry like IEthernetInterface
             parameters:
                 @display("p=450,1000");
         }
+        channelDatarateReader: ChannelDatarateReader {
+            @display("p=301,1000");
+        }
     connections:
         upperLayerIn --> queue.in;
         queue.out --> server.in;
-        server.out --> typeOrLengthInsertion.in;
-        typeOrLengthInsertion.out --> addressInsertion.in;
-        addressInsertion.out --> padding.in;
-        padding.out --> fcsInsertion.in;
-        fcsInsertion.out --> preambleInsertion.in;
-        preambleInsertion.out --> ifg.in;
-        ifg.out --> serializer.in;
-        serializer.out --> transmitter.in;
+        server.out --> typeOrLengthInserter.in;
+        typeOrLengthInserter.out --> addressInserter.in;
+        addressInserter.out --> paddingInserter.in;
+        paddingInserter.out --> fcsInserter.in;
+        fcsInserter.out --> preambleInserter.in;
+        preambleInserter.out --> serializer.in;
+        serializer.out --> ifg.in;
+        ifg.out --> transmitter.in;
         transmitter.out --> phys$o;
         phys$i --> receiver.in;
         receiver.out --> preambleChecker.in;
-        preambleChecker.out --> fcsVerification.in;
-        fcsVerification.out --> addressChecking.in;
-        addressChecking.out --> typeOrLengthChecking.in;
-        typeOrLengthChecking.out --> upperLayerOut;
+        preambleChecker.out --> fcsChecker.in;
+        fcsChecker.out --> addressChecker.in;
+        addressChecker.out --> typeOrLengthChecker.in;
+        typeOrLengthChecker.out --> upperLayerOut;
 }

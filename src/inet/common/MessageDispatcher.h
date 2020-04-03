@@ -73,9 +73,14 @@ class INET_API MessageDispatcher : public cSimpleModule, public IProtocolRegistr
     virtual bool canPushSomePacket(cGate *gate = nullptr) const override;
     virtual bool canPushPacket(Packet *packet, cGate *gate = nullptr) const override;
     virtual void pushPacket(Packet *packet, cGate *gate = nullptr) override;
+    virtual void pushPacketStart(Packet *packet, cGate *gate = nullptr) override { }
+    virtual void pushPacketEnd(Packet *packet, cGate *gate = nullptr) override { }
+    virtual void pushPacketProgress(Packet *packet, b position, b extraProcessableLength = b(0), cGate *gate = nullptr) override { }
+    virtual b getPushedPacketConfirmedLength(Packet *packet, cGate *gate = nullptr) override { return b(0); }
 
     virtual IPassivePacketSink *getConsumer(cGate *gate) override { return nullptr; }
     virtual void handleCanPushPacket(cGate *gate) override;
+    virtual void handlePushPacketConfirmation(Packet *packet, cGate *gate, bool successful) override { }
 
     virtual void handleRegisterInterface(const InterfaceEntry &interface, cGate *out, cGate *in) override;
     virtual void handleRegisterService(const Protocol& protocol, cGate *out, ServicePrimitive servicePrimitive) override;

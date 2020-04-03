@@ -18,14 +18,14 @@
 package inet.protocol.service;
 
 import inet.protocol.classifier.DynamicClassifier;
-import inet.protocol.fragmentation.Defragmentation;
+import inet.protocol.fragmentation.Defragmenter;
 import inet.queueing.common.PacketMultiplexer;
 
 module PeerService
 {
     parameters:
-        int numDefragmentation = default(0);
-        defragmentation[*].deleteSelf = true;
+        int numDefragmenter = default(0);
+        defragmenter[*].deleteSelf = true;
         @display("i=block/routing");
     gates:
         input in;
@@ -34,7 +34,7 @@ module PeerService
         multiplexer: PacketMultiplexer {
             @display("p=150,100");
         }
-        defragmentation[numDefragmentation]: Defragmentation {
+        defragmenter[numDefragmenter]: Defragmenter {
             @display("p=150,200,row,100");
         }
         classifier: DynamicClassifier {
@@ -42,7 +42,7 @@ module PeerService
         }
     connections:
         in --> classifier.in;
-        for i=0..numDefragmentation-1 {
+        for i=0..numDefragmenter-1 {
             classifier.out++ --> multiplexer.in++;
         }
         multiplexer.out --> out;

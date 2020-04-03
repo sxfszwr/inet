@@ -22,8 +22,8 @@ import inet.networklayer.common.InterfaceEntry;
 import inet.protocol.acknowledgement.ReceiveWithAcknowledge;
 import inet.protocol.acknowledgement.Resending;
 import inet.protocol.acknowledgement.SendWithAcknowledge;
-import inet.protocol.checksum.CrcInsertion;
-import inet.protocol.checksum.CrcVerification;
+import inet.protocol.checksum.CrcInserter;
+import inet.protocol.checksum.CrcChecker;
 import inet.protocol.dispatching.ReceiveWithProtocol;
 import inet.protocol.dispatching.SendWithProtocol;
 import inet.protocol.selectivity.ReceiveAtMacAddress;
@@ -57,7 +57,7 @@ module InterfaceService extends InterfaceEntry
         sendWithProtocol: SendWithProtocol {
             @display("p=150,500");
         }
-        crcInsertion: CrcInsertion {
+        crcInserter: CrcInserter {
             @display("p=150,600");
         }
         transmitter: Transmitter {
@@ -75,7 +75,7 @@ module InterfaceService extends InterfaceEntry
         receiveWithProtocol: ReceiveWithProtocol {
             @display("p=450,400");
         }
-        crcVerification: CrcVerification {
+        crcChecker: CrcChecker {
             @display("p=450,500");
         }
     connections:
@@ -84,11 +84,11 @@ module InterfaceService extends InterfaceEntry
         resending.out --> sendWithAcknowledge.in;
         sendWithAcknowledge.out --> m1.in++;
         m1.out --> sendWithProtocol.in;
-        sendWithProtocol.out --> crcInsertion.in;
-        crcInsertion.out --> transmitter.in;
+        sendWithProtocol.out --> crcInserter.in;
+        crcInserter.out --> transmitter.in;
         transmitter.out --> { @display("m=s"); } --> g$o;
-        g$i --> { @display("m=s"); } --> crcVerification.in;
-        crcVerification.out --> receiveWithProtocol.in;
+        g$i --> { @display("m=s"); } --> crcChecker.in;
+        crcChecker.out --> receiveWithProtocol.in;
         receiveWithProtocol.out --> d1.in++;
         d1.out++ --> receiveWithAcknowledge.in;
         receiveWithAcknowledge.out --> receiveAtMacAddress.in;

@@ -16,6 +16,7 @@
 //
 
 #include "inet/common/INETUtils.h"
+#include "inet/common/ModuleAccess.h"
 #include "inet/protocol/classifier/DynamicClassifier.h"
 
 namespace inet {
@@ -48,7 +49,8 @@ int DynamicClassifier::classifyPacket(Packet *packet)
         auto classifierOutputGate = gate("out", gateSize("out") - 1);
         classifierOutputGate->connectTo(moduleInputGate);
         outputGates.push_back(classifierOutputGate);
-        consumers.push_back(nullptr); // TODO: check_and_cast<IPassivePacketSink *>(module));
+        auto consumer = findConnectedModule<IPassivePacketSink>(classifierOutputGate);
+        consumers.push_back(consumer);
         moduleOutputGate->connectTo(multiplexerInputGate);
         module->finalizeParameters();
         module->buildInside();

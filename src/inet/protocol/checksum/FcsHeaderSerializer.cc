@@ -26,7 +26,7 @@ void FcsHeaderSerializer::serialize(MemoryOutputStream& stream, const Ptr<const 
     const auto& fcsHeader = staticPtrCast<const FcsHeader>(chunk);
     auto fcsMode = fcsHeader->getFcsMode();
     if (fcsMode != FCS_DISABLED && fcsMode != FCS_COMPUTED)
-        throw cRuntimeError("Cannot serialize FCS header without turned off or properly computed FCS, try changing the value of fcsMode parameter for FcsInsertion");
+        throw cRuntimeError("Cannot serialize FCS header without turned off or properly computed FCS, try changing the value of fcsMode parameter for FcsInserter");
     stream.writeUint32Be(fcsHeader->getFcs());
 }
 

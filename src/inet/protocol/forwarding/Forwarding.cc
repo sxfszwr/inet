@@ -21,7 +21,7 @@
 #include "inet/networklayer/common/InterfaceEntry.h"
 #include "inet/networklayer/common/L3AddressResolver.h"
 #include "inet/protocol/forwarding/Forwarding.h"
-#include "inet/protocol/IProtocol.h"
+#include "inet/protocol/contract/IProtocol.h"
 #include "inet/protocol/selectivity/DestinationL3AddressHeader_m.h"
 
 namespace inet {

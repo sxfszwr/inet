@@ -55,6 +55,8 @@ class INET_API Transmitter : public PassivePacketSinkBase
     virtual bool canPushSomePacket(cGate *gate = nullptr) const override { return !txEndTimer->isScheduled(); }
     virtual bool canPushPacket(Packet *packet, cGate *gate = nullptr) const override { return canPushSomePacket(gate); }
     virtual void pushPacket(Packet *packet, cGate *gate = nullptr) override;
+    virtual void pushPacketProgress(Packet *packet, b position, b extraProcessableLength = b(0), cGate *gate = nullptr) override { }
+    virtual b getPushedPacketConfirmedLength(Packet *packet, cGate *gate = nullptr) override { return b(0); }
 };
 
 } // namespace inet

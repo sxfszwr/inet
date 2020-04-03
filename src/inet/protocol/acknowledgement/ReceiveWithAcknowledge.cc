@@ -18,7 +18,7 @@
 #include "inet/common/IProtocolRegistrationListener.h"
 #include "inet/protocol/acknowledgement/AcknowledgeHeader_m.h"
 #include "inet/protocol/acknowledgement/ReceiveWithAcknowledge.h"
-#include "inet/protocol/IProtocol.h"
+#include "inet/protocol/contract/IProtocol.h"
 #include "inet/protocol/ordering/SequenceNumberHeader_m.h"
 
 namespace inet {

@@ -19,7 +19,7 @@
 #include "inet/common/ProtocolTag_m.h"
 #include "inet/networklayer/common/L3AddressTag_m.h"
 #include "inet/networklayer/contract/ipv4/Ipv4Address.h"
-#include "inet/protocol/IProtocol.h"
+#include "inet/protocol/contract/IProtocol.h"
 #include "inet/protocol/selectivity/DestinationPortHeader_m.h"
 #include "inet/protocol/selectivity/SendToPort.h"
 

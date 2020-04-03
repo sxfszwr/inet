@@ -30,8 +30,7 @@ using namespace inet::physicallayer;
 class INET_API StartStopTransmitter : public PassivePacketSinkBase
 {
   protected:
-    bps datarate = bps(NaN);
-
+    cPar *dataratePar = nullptr;
     cGate *inputGate = nullptr;
     cGate *outputGate = nullptr;
     IActivePacketSource *producer = nullptr;
@@ -44,7 +43,7 @@ class INET_API StartStopTransmitter : public PassivePacketSinkBase
     virtual void initialize(int stage) override;
     virtual void handleMessage(cMessage *message) override;
 
-    virtual simtime_t calculateDuration(Packet *packet);
+    virtual simtime_t calculateDuration(Packet *packet, bps datarate) const;
     virtual void scheduleTxEndTimer(Signal *signal);
 
   public:
@@ -56,6 +55,8 @@ class INET_API StartStopTransmitter : public PassivePacketSinkBase
     virtual bool canPushSomePacket(cGate *gate = nullptr) const override { return !txEndTimer->isScheduled(); }
     virtual bool canPushPacket(Packet *packet, cGate *gate = nullptr) const override { return canPushSomePacket(gate); }
     virtual void pushPacket(Packet *packet, cGate *gate = nullptr) override;
+    virtual void pushPacketProgress(Packet *packet, b position, b extraProcessableLength = b(0), cGate *gate = nullptr) override { }
+    virtual b getPushedPacketConfirmedLength(Packet *packet, cGate *gate = nullptr) override { return b(0); }
 };
 
 } // namespace inet

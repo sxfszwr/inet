@@ -16,7 +16,6 @@
 //
 
 #include "inet/common/ModuleAccess.h"
-#include "inet/common/Simsignals.h"
 #include "inet/queueing/base/PacketFlowBase.h"
 
 namespace inet {
@@ -29,20 +28,26 @@ void PacketFlowBase::initialize(int stage)
         inputGate = gate("in");
         outputGate = gate("out");
         producer = findConnectedModule<IActivePacketSource>(inputGate);
-        collector = findConnectedModule<IActivePacketSink>(outputGate);
-        provider = findConnectedModule<IPassivePacketSource>(inputGate);
         consumer = findConnectedModule<IPassivePacketSink>(outputGate);
+        provider = findConnectedModule<IPassivePacketSource>(inputGate);
+        collector = findConnectedModule<IActivePacketSink>(outputGate);
     }
     else if (stage == INITSTAGE_QUEUEING) {
-        if (consumer != nullptr) {
+        if (producer != nullptr)
             checkPushPacketSupport(inputGate);
+        if (consumer != nullptr)
             checkPushPacketSupport(outputGate);
-        }
-        if (provider != nullptr) {
+        if (provider != nullptr)
             checkPopPacketSupport(inputGate);
+        if (collector != nullptr)
             checkPopPacketSupport(outputGate);
-        }
     }
+}
+
+void PacketFlowBase::handleMessage(cMessage *message)
+{
+    auto packet = check_and_cast<Packet *>(message);
+    pushPacket(packet, packet->getArrivalGate());
 }
 
 bool PacketFlowBase::canPushSomePacket(cGate *gate) const
@@ -58,6 +63,7 @@ bool PacketFlowBase::canPushPacket(Packet *packet, cGate *gate) const
 void PacketFlowBase::pushPacket(Packet *packet, cGate *gate)
 {
     Enter_Method("pushPacket");
+    take(packet);
     processPacket(packet);
     pushOrSendPacket(packet, outputGate, consumer);
     numProcessedPackets++;
@@ -68,25 +74,34 @@ void PacketFlowBase::pushPacket(Packet *packet, cGate *gate)
 void PacketFlowBase::pushPacketStart(Packet *packet, cGate *gate)
 {
     Enter_Method("pushPacketStart");
+    take(packet);
     processPacket(packet);
-    consumer->pushPacketStart(packet, outputGate->getPathEndGate());
-    // TODO: numProcessedPackets? etc.
+    pushOrSendPacketStart(packet, outputGate->getPathEndGate(), consumer);
+    numProcessedPackets++;
+    processedTotalLength += packet->getTotalLength();
+    updateDisplayString();
 }
 
 void PacketFlowBase::pushPacketProgress(Packet *packet, b position, b extraProcessableLength, cGate *gate)
 {
     Enter_Method("pushPacketProgress");
+    take(packet);
     processPacket(packet);
-    consumer->pushPacketProgress(packet, position, extraProcessableLength, outputGate->getPathEndGate());
-    // TODO: numProcessedPackets? etc.
+    pushOrSendPacketProgress(packet, position, extraProcessableLength, outputGate->getPathEndGate(), consumer);
+    numProcessedPackets++;
+    processedTotalLength += packet->getTotalLength();
+    updateDisplayString();
 }
 
 void PacketFlowBase::pushPacketEnd(Packet *packet, cGate *gate)
 {
     Enter_Method("pushPacketEnd");
+    take(packet);
     processPacket(packet);
-    consumer->pushPacketEnd(packet, outputGate->getPathEndGate());
-    // TODO: numProcessedPackets? etc.
+    pushOrSendPacketEnd(packet, outputGate->getPathEndGate(), consumer);
+    numProcessedPackets++;
+    processedTotalLength += packet->getTotalLength();
+    updateDisplayString();
 }
 
 b PacketFlowBase::getPushedPacketConfirmedLength(Packet *packet, cGate *gate)
@@ -96,7 +111,7 @@ b PacketFlowBase::getPushedPacketConfirmedLength(Packet *packet, cGate *gate)
 
 void PacketFlowBase::handlePushPacketConfirmation(Packet *packet, cGate *gate, bool successful)
 {
-    producer->handlePushPacketConfirmation(packet, gate, successful);
+    producer->handlePushPacketConfirmation(packet, inputGate->getPathStartGate(), successful);
 }
 
 bool PacketFlowBase::canPopSomePacket(cGate *gate) const
@@ -113,11 +128,12 @@ Packet *PacketFlowBase::popPacket(cGate *gate)
 {
     Enter_Method("popPacket");
     auto packet = provider->popPacket(inputGate->getPathStartGate());
+    take(packet);
     processPacket(packet);
     numProcessedPackets++;
     processedTotalLength += packet->getTotalLength();
-    updateDisplayString();
     animateSend(packet, outputGate);
+    updateDisplayString();
     return packet;
 }
 

@@ -19,7 +19,7 @@
 #include "inet/common/ProtocolTag_m.h"
 #include "inet/protocol/forwarding/HopLimitHeader_m.h"
 #include "inet/protocol/forwarding/SendWithHopLimit.h"
-#include "inet/protocol/IProtocol.h"
+#include "inet/protocol/contract/IProtocol.h"
 
 namespace inet {
 

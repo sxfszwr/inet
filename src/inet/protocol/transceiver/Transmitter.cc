@@ -48,7 +48,11 @@ void Transmitter::pushPacket(Packet *packet, cGate *gate)
     Enter_Method("pushPacket");
     txPacket = packet;
     take(txPacket);
+    auto oldPacketProtocolTag = txPacket->removeTag<PacketProtocolTag>();
     txPacket->clearTags();
+    auto newPacketProtocolTag = txPacket->addTag<PacketProtocolTag>();
+    *newPacketProtocolTag = *oldPacketProtocolTag;
+    delete oldPacketProtocolTag;
     auto signal = new Signal(packet->getName());
     auto duration = calculateDuration(txPacket);
     signal->setDuration(duration);
@@ -59,7 +63,7 @@ void Transmitter::pushPacket(Packet *packet, cGate *gate)
 
 simtime_t Transmitter::calculateDuration(Packet *packet)
 {
-    return packet->getTotalLength().get() / datarate.get();
+    return packet->getDataLength().get() / datarate.get();
 }
 
 void Transmitter::scheduleTxEndTimer(Signal *signal)

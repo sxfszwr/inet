@@ -14,6 +14,7 @@
 //
 
 #include "inet/common/ModuleAccess.h"
+#include "inet/common/ProtocolTag_m.h"
 #include "inet/protocol/transceiver/PreemtableTransmitter.h"
 
 namespace inet {
@@ -67,11 +68,19 @@ void PreemtableTransmitter::pushPacketProgress(Packet *packet, b position, b ext
     Enter_Method("pushPacketProgress");
     simtime_t timePosition = simTime() - txStartTime;
     int bitPosition = std::floor(datarate.get() * timePosition.dbl());
+    delete txPacket;
     txPacket = packet;
+    auto oldPacketProtocolTag = txPacket->removeTag<PacketProtocolTag>();
+    txPacket->clearTags();
+    auto newPacketProtocolTag = txPacket->addTag<PacketProtocolTag>();
+    *newPacketProtocolTag = *oldPacketProtocolTag;
+    delete oldPacketProtocolTag;
     auto duration = calculateDuration(txPacket);
-    txPacket->setDuration(duration);
-    sendPacketProgress(txPacket, outputGate, duration, bitPosition, timePosition);
-    scheduleTxEndTimer(txPacket, timePosition);
+    auto signal = new Signal(txPacket->getName());
+    signal->encapsulate(txPacket->dup());
+    signal->setDuration(duration);
+    sendPacketProgress(signal, outputGate, duration, bitPosition, timePosition);
+    scheduleTxEndTimer(signal, timePosition);
 }
 
 void PreemtableTransmitter::pushPacketEnd(Packet *packet, cGate *gate)
@@ -84,20 +93,31 @@ void PreemtableTransmitter::startTx(Packet *packet)
 {
     ASSERT(txPacket == nullptr);
     txPacket = packet;
+    auto oldPacketProtocolTag = txPacket->removeTag<PacketProtocolTag>();
     txPacket->clearTags();
+    auto newPacketProtocolTag = txPacket->addTag<PacketProtocolTag>();
+    *newPacketProtocolTag = *oldPacketProtocolTag;
+    delete oldPacketProtocolTag;
     txStartTime = simTime();
     auto duration = calculateDuration(txPacket);
-    txPacket->setDuration(duration);
+    auto signal = new Signal(txPacket->getName());
+    signal->encapsulate(txPacket->dup());
+    signal->setDuration(duration);
     EV_INFO << "Starting transmission: packetName = " << txPacket->getName() << ", length = " << txPacket->getTotalLength() << ", duration = " << duration << std::endl;
-    scheduleTxEndTimer(txPacket, 0);
-    sendPacketStart(txPacket, outputGate, duration);
+    scheduleTxEndTimer(signal, 0);
+    sendPacketStart(signal, outputGate, duration);
 }
 
 void PreemtableTransmitter::endTx()
 {
     EV_INFO << "Ending transmission: packetName = " << txPacket->getName() << std::endl;
-    sendPacketEnd(txPacket, outputGate, txPacket->getDuration());
+    auto duration = calculateDuration(txPacket);
+    auto signal = new Signal(txPacket->getName());
+    signal->encapsulate(txPacket->dup());
+    signal->setDuration(duration);
+    sendPacketEnd(signal, outputGate, duration);
     producer->handlePushPacketConfirmation(txPacket, inputGate->getPathStartGate(), true);
+    delete txPacket;
     txPacket = nullptr;
     txStartTime = -1;
     producer->handleCanPushPacket(inputGate->getPathStartGate());
@@ -109,9 +129,11 @@ void PreemtableTransmitter::abortTx()
     b transmittedLength = getPushedPacketConfirmedLength(txPacket, inputGate);
     txPacket->eraseAtBack(txPacket->getTotalLength() - transmittedLength);
     auto duration = calculateDuration(txPacket);
-    txPacket->setDuration(duration);
     EV_INFO << "Aborting transmission: packetName = " << txPacket->getName() << ", length = " << txPacket->getTotalLength() << ", duration = " << duration << std::endl;
-    sendPacketEnd(txPacket, outputGate, duration);
+    auto signal = new Signal(txPacket->getName());
+    signal->encapsulate(txPacket->dup());
+    signal->setDuration(duration);
+    sendPacketEnd(signal, outputGate, duration);
     producer->handlePushPacketConfirmation(txPacket, inputGate->getPathStartGate(), true);
     txPacket = nullptr;
     txStartTime = -1;
@@ -123,11 +145,11 @@ simtime_t PreemtableTransmitter::calculateDuration(Packet *packet)
     return packet->getTotalLength().get() / datarate.get();
 }
 
-void PreemtableTransmitter::scheduleTxEndTimer(Packet *packet, simtime_t timePosition)
+void PreemtableTransmitter::scheduleTxEndTimer(Signal *signal, simtime_t timePosition)
 {
     if (txEndTimer->isScheduled())
         cancelEvent(txEndTimer);
-    scheduleAt(simTime() + packet->getDuration() - timePosition, txEndTimer);
+    scheduleAt(simTime() + signal->getDuration() - timePosition, txEndTimer);
 }
 
 b PreemtableTransmitter::getPushedPacketConfirmedLength(Packet *packet, cGate *gate)

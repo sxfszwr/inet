@@ -25,15 +25,15 @@ import inet.protocol.acknowledgement.Resending;
 import inet.protocol.acknowledgement.SendWithAcknowledge;
 import inet.protocol.aggregation.Aggregation;
 import inet.protocol.aggregation.Deaggregation;
-import inet.protocol.checksum.CrcInsertion;
-import inet.protocol.checksum.CrcVerification;
+import inet.protocol.checksum.CrcInserter;
+import inet.protocol.checksum.CrcChecker;
 import inet.protocol.dispatching.ReceiveWithProtocol;
 import inet.protocol.dispatching.SendWithProtocol;
 import inet.protocol.forwarding.Forwarding;
 import inet.protocol.forwarding.ReceiveWithHopLimit;
 import inet.protocol.forwarding.SendWithHopLimit;
-import inet.protocol.fragmentation.Defragmentation;
-import inet.protocol.fragmentation.Fragmentation;
+import inet.protocol.fragmentation.Defragmenter;
+import inet.protocol.fragmentation.FixedLengthFragmenter;
 import inet.protocol.ordering.Reordering;
 import inet.protocol.ordering.SequenceNumbering;
 import inet.protocol.selectivity.ReceiveAtL3Address;
@@ -48,6 +48,7 @@ import inet.queueing.contract.IActivePacketSource;
 import inet.queueing.contract.IPacketQueue;
 import inet.queueing.contract.IPacketServer;
 import inet.queueing.contract.IPassivePacketSink;
+
 
 moduleinterface IApp
 {
@@ -150,7 +151,7 @@ module DataService
         aggregation: Aggregation {
             @display("p=150,100");
         }
-        fragmentation: Fragmentation {
+        fragmenter: FixedLengthFragmenter {
             @display("p=150,200");
         }
         sequenceNumbering: SequenceNumbering {
@@ -165,7 +166,7 @@ module DataService
         deaggregation: Deaggregation {
             @display("p=450,100");
         }
-        defragmentation: Defragmentation {
+        defragmenter: Defragmenter {
             @display("p=450,200");
         }
         reordering: Reordering {
@@ -173,14 +174,14 @@ module DataService
         }
     connections:
         upperLayerIn --> { @display("m=n"); } --> aggregation.in;
-        aggregation.out --> fragmentation.in;
-        fragmentation.out --> sequenceNumbering.in;
+        aggregation.out --> fragmenter.in;
+        fragmenter.out --> sequenceNumbering.in;
         sequenceNumbering.out --> queue.in;
         queue.out --> server.in;
         server.out --> { @display("m=s"); } --> lowerLayerOut;
         lowerLayerIn --> { @display("m=s"); } --> reordering.in;
-        reordering.out --> defragmentation.in;
-        defragmentation.out --> deaggregation.in;
+        reordering.out --> defragmenter.in;
+        defragmenter.out --> deaggregation.in;
         deaggregation.out --> { @display("m=n"); } --> upperLayerOut;
 }
 
@@ -210,7 +211,7 @@ module Interface extends InterfaceEntry
         sendWithProtocol: SendWithProtocol {
             @display("p=150,500");
         }
-        crcInsertion: CrcInsertion {
+        crcInserter: CrcInserter {
             @display("p=150,600");
         }
         transmitter: Transmitter {
@@ -228,7 +229,7 @@ module Interface extends InterfaceEntry
         receiveWithProtocol: ReceiveWithProtocol {
             @display("p=450,400");
         }
-        crcVerification: CrcVerification {
+        crcChecker: CrcChecker {
             @display("p=450,500");
         }
     connections:
@@ -237,11 +238,11 @@ module Interface extends InterfaceEntry
         resending.out --> sendWithAcknowledge.in;
         sendWithAcknowledge.out --> m1.in++;
         m1.out --> sendWithProtocol.in;
-        sendWithProtocol.out --> crcInsertion.in;
-        crcInsertion.out --> transmitter.in;
+        sendWithProtocol.out --> crcInserter.in;
+        crcInserter.out --> transmitter.in;
         transmitter.out --> { @display("m=s"); } --> g$o;
-        g$i --> { @display("m=s"); } --> crcVerification.in;
-        crcVerification.out --> receiveWithProtocol.in;
+        g$i --> { @display("m=s"); } --> crcChecker.in;
+        crcChecker.out --> receiveWithProtocol.in;
         receiveWithProtocol.out --> d1.in++;
         d1.out++ --> receiveWithAcknowledge.in;
         receiveWithAcknowledge.out --> receiveAtMacAddress.in;

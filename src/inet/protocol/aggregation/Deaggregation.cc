@@ -18,7 +18,7 @@
 #include "inet/common/IProtocolRegistrationListener.h"
 #include "inet/protocol/aggregation/Deaggregation.h"
 #include "inet/protocol/aggregation/SubpacketLengthHeader_m.h"
-#include "inet/protocol/IProtocol.h"
+#include "inet/protocol/contract/IProtocol.h"
 
 namespace inet {
 

@@ -19,7 +19,7 @@
 #include "inet/common/ProtocolTag_m.h"
 #include "inet/protocol/acknowledgement/AcknowledgeHeader_m.h"
 #include "inet/protocol/acknowledgement/SendWithAcknowledge.h"
-#include "inet/protocol/IProtocol.h"
+#include "inet/protocol/contract/IProtocol.h"
 #include "inet/protocol/ordering/SequenceNumberHeader_m.h"
 
 namespace inet {

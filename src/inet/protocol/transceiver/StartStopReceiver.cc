@@ -23,7 +23,7 @@ Define_Module(StartStopReceiver);
 void StartStopReceiver::initialize(int stage)
 {
     if (stage == INITSTAGE_LOCAL) {
-        datarate = bps(par("datarate"));
+        dataratePar = &par("datarate");
         inputGate = gate("in");
         outputGate = gate("out");
         consumer = findConnectedModule<IPassivePacketSink>(outputGate);
@@ -48,23 +48,27 @@ void StartStopReceiver::sendToUpperLayer(Packet *packet)
     pushOrSendPacket(packet, outputGate, consumer);
 }
 
-void StartStopReceiver::receivePacketStart(cPacket *packet)
+void StartStopReceiver::receivePacketStart(cPacket *cpacket)
 {
-    take(packet);
-    rxSignal = check_and_cast<Signal *>(packet);
+    ASSERT(rxSignal == nullptr);
+    take(cpacket);
+    rxSignal = check_and_cast<Signal *>(cpacket);
 }
 
-void StartStopReceiver::receivePacketProgress(cPacket *packet, int bitPosition, simtime_t timePosition, int extraProcessableBitLength, simtime_t extraProcessableDuration)
+void StartStopReceiver::receivePacketProgress(cPacket *cpacket, int bitPosition, simtime_t timePosition, int extraProcessableBitLength, simtime_t extraProcessableDuration)
 {
-    take(packet);
-    rxSignal = check_and_cast<Signal *>(packet);
+    take(cpacket);
+    delete rxSignal;
+    rxSignal = check_and_cast<Signal *>(cpacket);
 }
 
 void StartStopReceiver::receivePacketEnd(cPacket *cpacket)
 {
+    delete rxSignal;
     rxSignal = check_and_cast<Signal *>(cpacket);
     auto packet = check_and_cast<Packet *>(rxSignal->decapsulate());
     sendToUpperLayer(packet);
+    delete rxSignal;
     rxSignal = nullptr;
 }
 

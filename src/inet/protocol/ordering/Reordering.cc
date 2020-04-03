@@ -16,7 +16,7 @@
 //
 
 #include "inet/common/IProtocolRegistrationListener.h"
-#include "inet/protocol/IProtocol.h"
+#include "inet/protocol/contract/IProtocol.h"
 #include "inet/protocol/ordering/Reordering.h"
 #include "inet/protocol/ordering/SequenceNumberHeader_m.h"
 

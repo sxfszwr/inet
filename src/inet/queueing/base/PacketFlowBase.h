@@ -37,6 +37,7 @@ class INET_API PacketFlowBase : public PacketProcessorBase, public virtual IPack
 
   protected:
     virtual void initialize(int stage) override;
+    virtual void handleMessage(cMessage *message) override;
     virtual void processPacket(Packet *packet) = 0;
 
   public:
@@ -57,6 +58,11 @@ class INET_API PacketFlowBase : public PacketProcessorBase, public virtual IPack
     virtual bool canPopSomePacket(cGate *gate) const override;
     virtual Packet *canPopPacket(cGate *gate) const override;
     virtual Packet *popPacket(cGate *gate) override;
+    virtual Packet *pullPacketStart(cGate *gate = nullptr) override { return nullptr; }
+    virtual Packet *pullPacketEnd(cGate *gate = nullptr) override { return nullptr; }
+    virtual Packet *pullPacketProgress(b& position, b& extraProcessableLength, cGate *gate = nullptr) override { return nullptr; }
+    virtual b getPulledPacketConfirmedLength(Packet *packet, cGate *gate = nullptr) override { return b(0); }
+    virtual void handlePullPacketConfirmation(Packet *packet, cGate *gate, bool successful) override { }
 
     virtual void handleCanPushPacket(cGate *gate) override;
     virtual void handleCanPopPacket(cGate *gate) override;

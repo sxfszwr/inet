@@ -17,8 +17,8 @@
 
 package inet.tutorials.protocol;
 
-import inet.protocol.checksum.CrcInsertion;
-import inet.protocol.checksum.CrcVerification;
+import inet.protocol.checksum.CrcInserter;
+import inet.protocol.checksum.CrcChecker;
 import inet.protocol.transceiver.Receiver;
 import inet.protocol.transceiver.Transmitter;
 import inet.queueing.queue.PacketQueue;
@@ -42,7 +42,7 @@ module ClientHost4
         server: InstantServer {
             @display("p=150,300");
         }
-        crcInsertion: CrcInsertion {
+        crcInserter: CrcInserter {
             @display("p=150,400");
         }
         transmitter: Transmitter {
@@ -51,8 +51,8 @@ module ClientHost4
     connections:
         app.out --> queue.in;
         queue.out --> server.in;
-        server.out --> crcInsertion.in;
-        crcInsertion.out --> transmitter.in;
+        server.out --> crcInserter.in;
+        crcInserter.out --> transmitter.in;
         transmitter.out --> out;
 }
 
@@ -66,7 +66,7 @@ module ServerHost4
         app: PassivePacketSink {
             @display("p=150,100");
         }
-        crcVerification: CrcVerification {
+        crcChecker: CrcChecker {
             @display("p=150,200");
         }
         receiver: Receiver {
@@ -74,8 +74,8 @@ module ServerHost4
         }
     connections:
         in --> receiver.in;
-        receiver.out --> crcVerification.in;
-        crcVerification.out --> app.in;
+        receiver.out --> crcChecker.in;
+        crcChecker.out --> app.in;
 }
 
 network Network4

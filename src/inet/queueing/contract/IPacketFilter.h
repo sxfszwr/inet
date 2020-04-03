@@ -26,7 +26,7 @@ namespace queueing {
 /**
  * This class defines the interface for packet filters.
  */
-class INET_API IPacketFilter : public IPacketFlow
+class INET_API IPacketFilter : public virtual IPacketFlow
 {
 };
 

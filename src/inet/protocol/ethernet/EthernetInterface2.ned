@@ -18,11 +18,9 @@
 package inet.protocol.ethernet;
 
 import inet.common.MessageDispatcher;
-import inet.protocol.PreemtingServer;
-import inet.protocol.checksum.FcsInsertion;
-import inet.protocol.checksum.FcsVerification;
-import inet.protocol.fragmentation.Defragmentation;
+import inet.protocol.fragmentation.Defragmenter;
 import inet.protocol.queue.InProgressQueue;
+import inet.protocol.server.PreemptingServer;
 import inet.protocol.transceiver.PreemtableTransmitter;
 import inet.protocol.transceiver.Receiver;
 import inet.queueing.classifier.PacketClassifier;
@@ -30,7 +28,6 @@ import inet.queueing.common.PacketCloner;
 import inet.queueing.common.PacketMultiplexer;
 import inet.queueing.queue.PacketQueue;
 import inet.queueing.server.InstantServer;
-
 
 simple SocketTable
 {
@@ -114,7 +111,7 @@ module EthernetInterface2
             parameters:
                 @display("p=250,200");
         }
-        llcInsertion: LlcX {
+        llcInserter: LlcX {
             parameters:
                 @display("p=150,200");
         }
@@ -138,7 +135,7 @@ module EthernetInterface2
             parameters:
                 @display("p=550,200");
         }
-        addressInsertion: AddressInsertion {
+        addressInserter: EthernetAddressInserter {
             parameters:
                 @display("p=150,600");
         }
@@ -158,15 +155,15 @@ module EthernetInterface2
             parameters:
                 @display("p=100,900");
         }
-        preemtingServer: PreemtingServer {
+        preemptingServer: PreemptingServer {
             parameters:
                 @display("p=200,1000");
         }
-        fcsInsertion: FcsInsertion {
+        fcsInserter: EthernetFcsInserter {
             parameters:
                 @display("p=150,1100");
         }
-        preambleInsertion: PreambleInsertion {
+        preambleInserter: EthernetPreambleInserter {
             parameters:
                 @display("p=150,1200");
         }
@@ -182,7 +179,7 @@ module EthernetInterface2
             parameters:
                 @display("p=450,600");
         }
-        defragmentation: Defragmentation {
+        defragmenter: Defragmenter {
             parameters:
                 @display("p=550,700");
         }
@@ -194,11 +191,11 @@ module EthernetInterface2
             parameters:
                 @display("p=350,700");
         }
-        addressChecking: AddressChecking {
+        addressChecker: EthernetAddressChecker {
             parameters:
                 @display("p=450,900");
         }
-        fcsVerification: FcsVerification {
+        fcsChecker: EthernetFcsChecker {
             parameters:
                 @display("p=450,1000");
         }
@@ -208,33 +205,33 @@ module EthernetInterface2
         }
     connections:
         upperLayerIn --> dispatcher.in++;
-        dispatcher.out++ --> llcInsertion.in;
+        dispatcher.out++ --> llcInserter.in;
         dispatcher.out++ --> socketX.in;
         dispatcher.out++ --> pauseX.in;
         pauseX.out --> multiplexerQ.in++;
-        llcInsertion.out --> multiplexerQ.in++;
+        llcInserter.out --> multiplexerQ.in++;
         multiplexerQ.out --> pendingQueue.in;
         pendingQueue.out --> instantServer.in;
-        instantServer.out --> addressInsertion.in;
-        addressInsertion.out --> qOrAndAeTagger.in;
+        instantServer.out --> addressInserter.in;
+        addressInserter.out --> qOrAndAeTagger.in;
         qOrAndAeTagger.out --> multiplexer3.in++;
         multiplexer3.out --> inProgressQueue.in;
-        inProgressQueue.out --> preemtingServer.in;
-        preemtingServer.out --> fcsInsertion.in;
-        preemtingServer.preemtedOut --> multiplexer3.in++;
-        fcsInsertion.out --> preambleInsertion.in;
-        preambleInsertion.out --> preemptableTransmitter.in;
+        inProgressQueue.out --> preemptingServer.in;
+        preemptingServer.out --> fcsInserter.in;
+        preemptingServer.preemtedOut --> multiplexer3.in++;
+        fcsInserter.out --> preambleInserter.in;
+        preambleInserter.out --> preemptableTransmitter.in;
         preemptableTransmitter.out --> connectionX.in;
         connectionX.out --> physicalOut;
 
         physicalIn --> receiver.in;
-        receiver.out --> fcsVerification.in;
-        fcsVerification.out --> addressChecking.in;
-        addressChecking.out --> classifier.in;
-        classifier.out++ --> defragmentation.in;
+        receiver.out --> fcsChecker.in;
+        fcsChecker.out --> addressChecker.in;
+        addressChecker.out --> classifier.in;
+        classifier.out++ --> defragmenter.in;
         classifier.out++ --> multiplexer2.in++;
         classifier.out++ --> pauseY.in;
-        defragmentation.out --> multiplexer2.in++;
+        defragmenter.out --> multiplexer2.in++;
         multiplexer2.out --> cloner.in;
         socketY.out --> multiplexer.in++;
         cloner.out++ --> socketY.in;

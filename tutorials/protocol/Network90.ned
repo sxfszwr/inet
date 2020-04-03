@@ -17,15 +17,15 @@
 
 package inet.tutorials.protocol;
 
-import inet.protocol.InterPacketGap;
-import inet.protocol.PreemtingServer;
-import inet.protocol.checksum.CrcInsertion;
-import inet.protocol.checksum.CrcVerification;
+import inet.protocol.checksum.CrcChecker;
+import inet.protocol.checksum.CrcInserter;
 import inet.protocol.classifier.DynamicClassifier;
-import inet.protocol.fragmentation.Defragmentation;
-import inet.protocol.fragmentation.Fragmentation;
+import inet.protocol.common.InterPacketGap;
+import inet.protocol.fragmentation.Defragmenter;
+import inet.protocol.fragmentation.FixedLengthFragmenter;
 import inet.protocol.ordering.SequenceNumbering;
 import inet.protocol.queue.InProgressQueue;
+import inet.protocol.server.PreemptingServer;
 import inet.protocol.transceiver.PreemtableTransmitter;
 import inet.protocol.transceiver.Receiver;
 import inet.queueing.classifier.ContentBasedClassifier;
@@ -75,7 +75,7 @@ module SenderHost
         server: InstantServer {
             @display("p=200,600");
         }
-        fragmentation: Fragmentation {
+        fragmenter: FixedLengthFragmenter {
             @display("p=200,700");
         }
         multiplexer2: PacketMultiplexer {
@@ -84,10 +84,10 @@ module SenderHost
         inProgressQueue: InProgressQueue {
             @display("p=150,900");
         }
-        preemtingServer: PreemtingServer {
+        preemptingServer: PreemptingServer {
             @display("p=250,1000");
         }
-        crcInsertion: CrcInsertion {
+        crcInserter: CrcInserter {
             @display("p=200,1100");
         }
         interPacketGap: InterPacketGap {
@@ -106,22 +106,22 @@ module SenderHost
         multiplexer1.out --> sequenceNumbering.in;
         sequenceNumbering.out --> pendingQueue.in;
         pendingQueue.out --> server.in;
-        server.out --> fragmentation.in;
-        fragmentation.out --> multiplexer2.in++;
+        server.out --> fragmenter.in;
+        fragmenter.out --> multiplexer2.in++;
         multiplexer2.out --> inProgressQueue.in;
-        inProgressQueue.out --> preemtingServer.in;
-        preemtingServer.preemtedOut --> multiplexer2.in++;
-        preemtingServer.out --> crcInsertion.in;
-        crcInsertion.out --> interPacketGap.in;
+        inProgressQueue.out --> preemptingServer.in;
+        preemptingServer.preemtedOut --> multiplexer2.in++;
+        preemptingServer.out --> crcInserter.in;
+        crcInserter.out --> interPacketGap.in;
         interPacketGap.out --> transmitter.in;
         transmitter.out --> g;
 }
 
-module DynamicDefragmentation
+module DynamicDefragmenter
 {
     parameters:
-        int numDefragmentation = default(0);
-        defragmentation[*].deleteSelf = true;
+        int numDefragmenter = default(0);
+        defragmenter[*].deleteSelf = true;
         @display("i=block/routing");
     gates:
         input in;
@@ -130,7 +130,7 @@ module DynamicDefragmentation
         multiplexer: PacketMultiplexer {
             @display("p=150,100");
         }
-        defragmentation[numDefragmentation]: Defragmentation {
+        defragmenter[numDefragmenter]: Defragmenter {
             @display("p=150,200,row,100");
         }
         classifier: DynamicClassifier {
@@ -138,7 +138,7 @@ module DynamicDefragmentation
         }
     connections:
         in --> classifier.in;
-        for i=0..numDefragmentation-1 {
+        for i=0..numDefragmenter-1 {
             classifier.out++ --> multiplexer.in++;
         }
         multiplexer.out --> out;
@@ -164,10 +164,10 @@ module ReceiverHost
         classifier: ContentBasedClassifier {
             @display("p=200,200");
         }
-        defragmentation: DynamicDefragmentation {
+        defragmenter: DynamicDefragmenter {
             @display("p=200,300");
         }
-        crcVerification: CrcVerification {
+        crcChecker: CrcChecker {
             @display("p=200,400");
         }
         receiver: Receiver {
@@ -175,9 +175,9 @@ module ReceiverHost
         }
     connections:
         g --> receiver.in;
-        receiver.out --> crcVerification.in;
-        crcVerification.out --> defragmentation.in;
-        defragmentation.out --> classifier.in;
+        receiver.out --> crcChecker.in;
+        crcChecker.out --> defragmenter.in;
+        defragmenter.out --> classifier.in;
         classifier.out++ --> sinkA.in;
         classifier.out++ --> sinkB.in;
         classifier.out++ --> sinkC.in;
