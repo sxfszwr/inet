@@ -23,7 +23,7 @@ Goals
 
     so
 
-    - analog signal representation models how radio signals are 
+    - analog signal representation models how radio signals are
     - signal analog models model radio signals are they are transmitted, received and propagate
     - how the signals are represented
     - there are multiple models, with different complexity, depending on which is needed
@@ -63,7 +63,7 @@ its part of the radio medium module
 
     the analog model
 
-    - it implements the analog signal representation, i.e. how signals as a physical phenomena are represented/at what detail level they are represented/what features of them are represented/modeled. 
+    - it implements the analog signal representation, i.e. how signals as a physical phenomena are represented/at what detail level they are represented/what features of them are represented/modeled.
     - this is a simple module, a submodule of the radio medium module
     - several types exist, ranging from simple to complex, suitable for different purposes
     - when the details are not important, a simpler model is sufficient
@@ -96,7 +96,7 @@ INET contains a version of radio and radio medium module for each type and techn
     there are types as in unit disk, scalar and dimensional
     and also types as in ieee80211, apsk, ieee802154 etc
 
-    There are several 
+    There are several
 
 Testing routing protocols (Unit disk)
 -------------------------------------
@@ -108,20 +108,47 @@ Testing routing protocols (Unit disk)
     - the config/network
     - the results (show the ranges, something about the transmissions in the inspector
 
-so the parameters are set in the transmitter and the receiver
+..  so the parameters are set in the transmitter and the receiver
 
-there are some degrees of freedom; the ranges, and some features of protocols are configurable, such as headerlength, bitrate, preambleduration. These are configured in the transmitter.
-The receiver has the ignoreInterference parameter.
+  there are some degrees of freedom; the ranges, and some features of protocols are configurable, such as headerlength, bitrate, preambleduration. These are configured in the transmitter.
+  The receiver has the ignoreInterference parameter.
 
-This example simulation demonstrates the unit disk analog model. The model is the simplest available in INET; it only models a communication range and an interference range. Tranmissions are always successfully received in the communication range, and never outside of it. Transmissions in the interference range can cause network nodes to back off from transmitting **TODO**. Also can set preamble duration, headerlength, and bitrate (used for calculating transmission duration). Set these in the transmitter. Set the ignoreInterference in the receiver.
+  This example simulation demonstrates the unit disk analog model. The model is the simplest available in INET; it only models a communication range and an interference range. Tranmissions are always successfully received in the communication range, and never outside of it. Transmissions in the interference range can cause network nodes to back off from transmitting **TODO**. Also can set preamble duration, headerlength, and bitrate (used for calculating transmission duration). Set these in the transmitter. Set the ignoreInterference in the receiver.
 
-It has three ranges configurable by parameters:
+The unit disk analog model is the simplest available in INET. It models three ranges, configurable with parameters:
 
-- Communication range: tranmissions are always successful (unless ruined by an interfering signal)
-- Interference range: transmissions can't be received successfully, but they can ruin other receptions
-- Detection range: transmission can't interfere with other transmissions, but can cause network nodes detecting them to defer from transmitting (when using a suitable MAC module, such as CsmaCaMac or Ieee80211Mac)
+..  of unit disk transmitters
 
-**TODO** need to use the appropriate radio medium, and radio modules (which have the correct transmitter and receiver types)
+- **Communication range**: tranmissions are always successful within this range (unless ruined by another interfering signal)
+- **Interference range**: transmissions can't be received successfully in this range, but they can ruin other receptions
+- **Detection range**: transmission can't interfere with other transmissions in this range, but they can cause network nodes detecting them to defer from transmitting (when using a suitable MAC module, such as :ned:`CsmaCaMac` or :ned:`Ieee80211Mac`)
+
+These parameters can be set in the unit disk transmitters (:par:`communicationRange`, :par:`interferenceRange`, :par:`detectionRange` parameters).
+Furthermore, the unit disk transmitters model some protocol features, configurable by parameters, such as :par:`headerLength`, :par:`preambleDuration`, and :par:`bitrate`; the bitrate is used to calculate transmission duration.
+
+.. **TODO**: the actual parameters
+
+The unit disk receiver's :par:`ignoreInterference` parameter configures whether interfering signals ruin receptions (``false`` by default).
+
+**TODO**
+
+- why is it good? for what purpose?
+- what modules are available? and how to use it
+- ideally, the ranges should be incrementally larger
+
+- its simple and runs fast; suitable for scenarios where the details of tranmissisons don't matter/the emphasis is not on that, for example, routing
+- there are actually, there are radios, which contain the transmitters and receivers
+and there is the radio medium...need to use compatible...some examples
+and there are some MAC's which can be used...not all features of the unit disk can be used with all MACs...the ackingmac doesnt do defer...need csmaca for that
+there is apsk and wifi...there are interfaces...
+
+.. It has three ranges configurable by parameters:
+
+  - Communication range: tranmissions are always successful (unless ruined by an interfering signal)
+  - Interference range: transmissions can't be received successfully, but they can ruin other receptions
+  - Detection range: transmission can't interfere with other transmissions, but can cause network nodes detecting them to defer from transmitting (when using a suitable MAC module, such as CsmaCaMac or Ieee80211Mac)
+
+**TODO** need to use the appropriate radio medium, and radio modules (which have the correct transmitter and receiver types) -> not here
 
 Number of received packets vs distance (Scalar)
 -----------------------------------------------
