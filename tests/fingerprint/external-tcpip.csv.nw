@@ -24,12 +24,12 @@
 /examples/inet/tcpclientserver/,     -f omnetpp.ini -c lwip__lwip__stream -r 0,         100s,            0da3-f2aa/~tNPl, PASS,
 /examples/inet/tcpclientserver/,     -f omnetpp.ini -c inet__lwip -r 0,                 100s,            9ad8-5ac8/~tNPl, PASS,
 
-/examples/ipv6/ipv6bulk/,            -f omnetpp.ini -c inet__lwip -r 0,                  50s,            25e4-b1f0/~tNPl, PASS,
-/examples/ipv6/ipv6bulk/,            -f omnetpp.ini -c inet_nsc -r 0,                    50s,            60db-5ed0/~tNPl, PASS,
-/examples/ipv6/ipv6bulk/,            -f omnetpp.ini -c lwip__inet -r 0,                  50s,            87e8-b3c1/~tNPl, PASS,
-/examples/ipv6/ipv6bulk/,            -f omnetpp.ini -c lwip__lwip -r 0,                  50s,            be22-9e88/~tNPl, PASS,
-/examples/ipv6/ipv6bulk/,            -f omnetpp.ini -c nsc_inet -r 0,                    50s,            93f7-02d2/~tNPl, PASS,
-/examples/ipv6/ipv6bulk/,            -f omnetpp.ini -c nsc_nsc -r 0,                     50s,            db66-3503/~tNPl, PASS,
+/examples/ipv6/ipv6bulk/,            -f omnetpp.ini -c inet__lwip -r 0,                  50s,            25e4-b1f0/~tNPl, PASS, EthFD
+/examples/ipv6/ipv6bulk/,            -f omnetpp.ini -c inet_nsc -r 0,                    50s,            60db-5ed0/~tNPl, PASS, EthFD
+/examples/ipv6/ipv6bulk/,            -f omnetpp.ini -c lwip__inet -r 0,                  50s,            87e8-b3c1/~tNPl, PASS, EthFD
+/examples/ipv6/ipv6bulk/,            -f omnetpp.ini -c lwip__lwip -r 0,                  50s,            be22-9e88/~tNPl, PASS, EthFD
+/examples/ipv6/ipv6bulk/,            -f omnetpp.ini -c nsc_inet -r 0,                    50s,            93f7-02d2/~tNPl, PASS, EthFD
+/examples/ipv6/ipv6bulk/,            -f omnetpp.ini -c nsc_nsc -r 0,                     50s,            db66-3503/~tNPl, PASS, EthFD
 
 /examples/inet/nclients/,            -f omnetpp.ini -c inet__lwip -r 0,                 200s,            e194-036d/~tNPl, ERROR,
 /examples/inet/nclients/,            -f omnetpp.ini -c lwip__inet -r 0,                 200s,            0de9-dea9/~tNPl, ERROR,
