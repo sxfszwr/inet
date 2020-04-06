@@ -23,5 +23,5 @@ simple EthernetFragmentPreambleInserter extends PacketFlowBase
 {
     parameters:
         @class(EthernetFragmentPreambleInserter);
-        @display("i=block/star");
+        @display("i=block/inserter");
 }

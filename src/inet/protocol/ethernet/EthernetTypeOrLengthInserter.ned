@@ -23,5 +23,5 @@ simple EthernetTypeOrLengthInserter extends PacketFlowBase
 {
     parameters:
         @class(EthernetTypeOrLengthInserter);
-        @display("i=block/star");
+        @display("i=block/inserter");
 }

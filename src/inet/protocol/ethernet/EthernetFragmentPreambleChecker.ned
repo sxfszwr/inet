@@ -23,4 +23,5 @@ simple EthernetFragmentPreambleChecker extends PacketFilterBase
 {
     parameters:
         @class(EthernetFragmentPreambleChecker);
+        @display("i=block/checker");
 }

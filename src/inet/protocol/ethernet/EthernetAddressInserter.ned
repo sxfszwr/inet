@@ -23,5 +23,5 @@ simple EthernetAddressInserter extends PacketFlowBase
 {
     parameters:
         @class(EthernetAddressInserter);
-        @display("i=block/star");
+        @display("i=block/inserter");
 }

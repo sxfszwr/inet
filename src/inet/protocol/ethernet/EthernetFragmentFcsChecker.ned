@@ -23,4 +23,5 @@ simple EthernetFragmentFcsChecker extends PacketFilterBase
 {
     parameters:
         @class(EthernetFragmentFcsChecker);
+        @display("i=block/checker");
 }

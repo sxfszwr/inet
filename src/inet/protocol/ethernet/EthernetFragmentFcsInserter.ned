@@ -24,5 +24,5 @@ simple EthernetFragmentFcsInserter extends PacketFlowBase
     parameters:
         string fcsMode @enum("disabled","declared","computed") = default("declared");
         @class(EthernetFragmentFcsInserter);
-        @display("i=block/star");
+        @display("i=block/inserter");
 }

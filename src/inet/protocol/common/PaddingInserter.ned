@@ -26,5 +26,5 @@ simple PaddingInserter extends PacketFlowBase
         int roundingLength @unit(b) = default(1B);
         string insertionPosition @unit("front","back") = default("back");
         @class(PaddingInserter);
-        @display("i=block/circle");
+        @display("i=block/inserter");
 }

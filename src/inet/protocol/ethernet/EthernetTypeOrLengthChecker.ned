@@ -23,4 +23,5 @@ simple EthernetTypeOrLengthChecker extends PacketFilterBase
 {
     parameters:
         @class(EthernetTypeOrLengthChecker);
+        @display("i=block/checker");
 }
