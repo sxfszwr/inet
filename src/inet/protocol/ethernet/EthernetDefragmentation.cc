@@ -16,7 +16,7 @@
 //
 
 #include "inet/protocol/ethernet/EthernetDefragmentation.h"
-#include "inet/protocol/ethernet/FragmentTag_m.h"
+#include "inet/protocol/fragmentation/FragmentTag_m.h"
 
 namespace inet {
 

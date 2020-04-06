@@ -21,10 +21,10 @@ import inet.linklayer.contract.IEthernetInterface;
 import inet.linklayer.contract.ITrafficConditioner;
 import inet.linklayer.ethernet.IEtherEncap;
 import inet.networklayer.common.InterfaceEntry;
-import inet.protocol.InterPacketGap;
-import inet.protocol.PacketSerializer;
 import inet.protocol.PacketTrimmer;
-import inet.protocol.Padding;
+import inet.protocol.common.InterPacketGap;
+import inet.protocol.common.PacketSerializer;
+import inet.protocol.common.PaddingInserter;
 import inet.protocol.transceiver.StartStopReceiver;
 import inet.protocol.transceiver.StartStopTransmitter;
 import inet.queueing.queue.PacketQueue;
@@ -84,15 +84,15 @@ module EthernetInterfaceEnc extends InterfaceEntry like IEthernetInterface
         packetTrimmer: PacketTrimmer {
             @display("p=150,600");
         }
-        padding: Padding {
+        padding: PaddingInserter {
             parameters:
                 @display("p=150,700");
         }
-        fcsInsertion: EthernetFcsInsertion {
+        fcsInserter: EthernetFcsInserter {
             parameters:
                 @display("p=150,800");
         }
-        preambleInsertion: PreambleInsertion {
+        preambleInserter: EthernetPreambleInserter {
             parameters:
                 @display("p=150,900");
         }
@@ -108,11 +108,11 @@ module EthernetInterfaceEnc extends InterfaceEntry like IEthernetInterface
             parameters:
                 @display("p=150,1200");
         }
-        fcsVerification: EthernetFcsVerification2 {
+        fcsChecker: EthernetFcsVerification2 {
             parameters:
                 @display("p=450,800");
         }
-        preambleChecker: PreambleChecker {
+        preambleChecker: EthernetPreambleChecker {
             parameters:
                 @display("p=450,1000");
         }
@@ -147,15 +147,15 @@ module EthernetInterfaceEnc extends InterfaceEntry like IEthernetInterface
         server.out --> fcsDropper.in;
         fcsDropper.out --> packetTrimmer.in;
         packetTrimmer.out --> padding.in;
-        padding.out --> fcsInsertion.in;
-        fcsInsertion.out --> preambleInsertion.in;
-        preambleInsertion.out --> serializer.in;
+        padding.out --> fcsInserter.in;
+        fcsInserter.out --> preambleInserter.in;
+        preambleInserter.out --> serializer.in;
         serializer.out --> ifg.in;
         ifg.out --> transmitter.in;
         transmitter.out --> { @display("m=s"); } --> phys$o;
 
-        fcsVerification.out --> encap.lowerLayerIn;
-        preambleChecker.out --> fcsVerification.in;
+        fcsChecker.out --> encap.lowerLayerIn;
+        preambleChecker.out --> fcsChecker.in;
         receiver.out --> preambleChecker.in;
         phys$i --> { @display("m=s"); } --> receiver.in;
 }

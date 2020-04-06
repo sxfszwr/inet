@@ -19,7 +19,6 @@
 #include "inet/common/IProtocolRegistrationListener.h"
 #include "inet/linklayer/ethernet/EtherFrame_m.h"
 #include "inet/protocol/ethernet/EthernetFcsVerification2.h"
-#include "inet/protocol/IProtocol.h"
 
 namespace inet {
 

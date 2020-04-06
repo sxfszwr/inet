@@ -15,10 +15,10 @@
 
 #include "inet/common/ModuleAccess.h"
 #include "inet/networklayer/common/DscpTag_m.h"
+#include "inet/protocol/contract/IProtocol.h"
 #include "inet/protocol/ethernet/EthernetPreemptingServer.h"
-#include "inet/protocol/ethernet/FragmentTag_m.h"
 #include "inet/protocol/fragmentation/FragmentNumberHeader_m.h"
-#include "inet/protocol/IProtocol.h"
+#include "inet/protocol/fragmentation/FragmentTag_m.h"
 #include "inet/protocol/ordering/SequenceNumberHeader_m.h"
 #include "inet/queueing/contract/IPacketQueue.h"
 

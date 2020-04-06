@@ -35,7 +35,8 @@ bool PacketFilter::matches(const cPacket *cpacket) const
         return false;
     else if (auto packet = dynamic_cast<const Packet *>(cpacket)) {
         PacketDissectorCallback callback(*this);
-        return callback.matches(packet);
+//        return callback.matches(packet);
+        return true;        //FIXME KLUDGE
     }
     else
         return true;

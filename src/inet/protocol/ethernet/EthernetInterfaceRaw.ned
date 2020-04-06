@@ -19,14 +19,15 @@ package inet.protocol.ethernet;
 
 import inet.linklayer.contract.IEthernetInterface;
 import inet.networklayer.common.InterfaceEntry;
-import inet.protocol.InterPacketGap;
-import inet.protocol.PacketSerializer;
 import inet.protocol.PacketTrimmer;
-import inet.protocol.Padding;
+import inet.protocol.common.InterPacketGap;
+import inet.protocol.common.PacketSerializer;
+import inet.protocol.common.PaddingInserter;
 import inet.protocol.transceiver.StartStopReceiver;
 import inet.protocol.transceiver.StartStopTransmitter;
 import inet.queueing.queue.PacketQueue;
 import inet.queueing.server.InstantServer;
+
 
 module EthernetInterfaceRaw extends InterfaceEntry like IEthernetInterface
 {
@@ -35,7 +36,7 @@ module EthernetInterfaceRaw extends InterfaceEntry like IEthernetInterface
         string address = default("auto");
         bool broadcast = default(true);
         bool multicast = default(true);
-        bool promiscuous = default(false);  // if true, all packets are received, otherwise only the
+        bool promiscuous = default(true);  // if true, all packets are received, otherwise only the
                                             // ones with matching destination MAC address
         double bitrate @unit(bps) = default(nan bps);
         int mtu @unit(B) = default(1500B);
@@ -46,7 +47,7 @@ module EthernetInterfaceRaw extends InterfaceEntry like IEthernetInterface
         ifg.duration = 96s/dropUnit(bitrate);
         transmitter.datarate = bitrate;
         receiver.datarate = bitrate;
-        addressChecking.promiscuous = promiscuous;
+        addressChecker.promiscuous = promiscuous;
     gates:
         input upperLayerIn;
         output upperLayerOut;
@@ -60,22 +61,22 @@ module EthernetInterfaceRaw extends InterfaceEntry like IEthernetInterface
             parameters:
                 @display("p=150,200");
         }
-        fcsVerification1: EthernetFcsVerification {
+        fcsChecker1: EthernetFcsChecker {
             parameters:
                 @display("p=150,300");
         }
         packetTrimmer: PacketTrimmer {
             @display("p=150,400");
         }
-        padding: Padding {
+        padding: PaddingInserter {
             parameters:
                 @display("p=150,500");
         }
-        fcsInsertion: EthernetFcsInsertion {
+        fcsInserter: EthernetFcsInserter {
             parameters:
                 @display("p=150,600");
         }
-        preambleInsertion: PreambleInsertion {
+        preambleInsertion: EthernetPreambleInserter {
             parameters:
                 @display("p=150,700");
         }
@@ -91,11 +92,11 @@ module EthernetInterfaceRaw extends InterfaceEntry like IEthernetInterface
             parameters:
                 @display("p=150,1000");
         }
-        fcsVerification: EthernetFcsVerification2 {
+        fcsChecker2: EthernetFcsVerification2 {
             parameters:
                 @display("p=450,600");
         }
-        preambleChecker: PreambleChecker {
+        preambleChecker: EthernetPreambleChecker {
             parameters:
                 @display("p=450,800");
         }
@@ -109,18 +110,18 @@ module EthernetInterfaceRaw extends InterfaceEntry like IEthernetInterface
     connections:
         upperLayerIn --> queue.in;
         queue.out --> server.in;
-        server.out --> fcsVerification1.in;
-        fcsVerification1.out --> packetTrimmer.in;
+        server.out --> fcsChecker1.in;
+        fcsChecker1.out --> packetTrimmer.in;
         packetTrimmer.out --> padding.in;
-        padding.out --> fcsInsertion.in;
-        fcsInsertion.out --> preambleInsertion.in;
+        padding.out --> fcsInserter.in;
+        fcsInserter.out --> preambleInsertion.in;
         preambleInsertion.out --> serializer.in;
         serializer.out --> ifg.in;
         ifg.out --> transmitter.in;
         transmitter.out --> phys$o;
         phys$i --> receiver.in;
         receiver.out --> preambleChecker.in;
-        preambleChecker.out --> fcsVerification.in;
-        fcsVerification.out --> { @display("m=n"); } --> upperLayerOut;
+        preambleChecker.out --> fcsChecker2.in;
+        fcsChecker2.out --> { @display("m=n"); } --> upperLayerOut;
 }
 
