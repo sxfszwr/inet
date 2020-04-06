@@ -1,24 +1,24 @@
 # working directory,                 command line arguments,                            simulation time limit,  fingerprint,    expected result, tags
-/tutorials/configurator/,            -f omnetpp.ini -c Step1 -r 0,                              500s,           0000-0000/~tNPl, PASS,
-/tutorials/configurator/,            -f omnetpp.ini -c Step2 -r 0,                              500s,           0000-0000/~tNPl, PASS,
-/tutorials/configurator/,            -f omnetpp.ini -c Step3 -r 0,                              500s,           0000-0000/~tNPl, PASS,
-/tutorials/configurator/,            -f omnetpp.ini -c Step4 -r 0,                              500s,           aef5-2dd9/~tNPl, PASS,   # Step4 extended
-/tutorials/configurator/,            -f omnetpp.ini -c Step5A -r 0,                             500s,           abd8-2d2e/~tNPl, PASS,
-/tutorials/configurator/,            -f omnetpp.ini -c Step5B -r 0,                             500s,           3356-b8df/~tNPl, PASS,
-/tutorials/configurator/,            -f omnetpp.ini -c Step6A -r 0,                             500s,           36d8-0b8f/~tNPl, PASS,
-/tutorials/configurator/,            -f omnetpp.ini -c Step6B -r 0,                             500s,           36d8-0b8f/~tNPl, PASS,
-/tutorials/configurator/,            -f omnetpp.ini -c Step7A -r 0,                             500s,           0000-0000/~tNPl, PASS,
-/tutorials/configurator/,            -f omnetpp.ini -c Step7B -r 0,                             500s,           0000-0000/~tNPl, PASS,
-/tutorials/configurator/,            -f omnetpp.ini -c Step7C -r 0,                             500s,           0000-0000/~tNPl, PASS,
-/tutorials/configurator/,            -f omnetpp.ini -c Step8A -r 0,                             100s,           7b08-bb26/~tNPl, PASS,   # Step8A extended
-/tutorials/configurator/,            -f omnetpp.ini -c Step8B -r 0,                             100s,           7b08-bb26/~tNPl, PASS,
-/tutorials/configurator/,            -f omnetpp.ini -c Step9 -r 0,                              100s,           2c74-b7cf/~tNPl, PASS,
+/tutorials/configurator/,            -f omnetpp.ini -c Step1 -r 0,                              500s,           0000-0000/~tNPl, PASS, EthFD
+/tutorials/configurator/,            -f omnetpp.ini -c Step2 -r 0,                              500s,           0000-0000/~tNPl, PASS, EthFD
+/tutorials/configurator/,            -f omnetpp.ini -c Step3 -r 0,                              500s,           0000-0000/~tNPl, PASS, EthFD
+/tutorials/configurator/,            -f omnetpp.ini -c Step4 -r 0,                              500s,           aef5-2dd9/~tNPl, PASS, EthFD   # Step4 extended
+/tutorials/configurator/,            -f omnetpp.ini -c Step5A -r 0,                             500s,           abd8-2d2e/~tNPl, PASS, EthFD
+/tutorials/configurator/,            -f omnetpp.ini -c Step5B -r 0,                             500s,           3356-b8df/~tNPl, PASS, EthFD
+/tutorials/configurator/,            -f omnetpp.ini -c Step6A -r 0,                             500s,           36d8-0b8f/~tNPl, PASS, EthFD
+/tutorials/configurator/,            -f omnetpp.ini -c Step6B -r 0,                             500s,           36d8-0b8f/~tNPl, PASS, EthFD
+/tutorials/configurator/,            -f omnetpp.ini -c Step7A -r 0,                             500s,           0000-0000/~tNPl, PASS, EthFD
+/tutorials/configurator/,            -f omnetpp.ini -c Step7B -r 0,                             500s,           0000-0000/~tNPl, PASS, EthFD
+/tutorials/configurator/,            -f omnetpp.ini -c Step7C -r 0,                             500s,           0000-0000/~tNPl, PASS, EthFD
+/tutorials/configurator/,            -f omnetpp.ini -c Step8A -r 0,                             100s,           7b08-bb26/~tNPl, PASS, EthFD   # Step8A extended
+/tutorials/configurator/,            -f omnetpp.ini -c Step8B -r 0,                             100s,           7b08-bb26/~tNPl, PASS, EthFD
+/tutorials/configurator/,            -f omnetpp.ini -c Step9 -r 0,                              100s,           2c74-b7cf/~tNPl, PASS, EthFD
 /tutorials/configurator/,            -f omnetpp.ini -c Step10A -r 0,                            100s,           0000-0000/~tNPl, PASS,   # Step10A extended
 /tutorials/configurator/,            -f omnetpp.ini -c Step10B -r 0,                            100s,           0000-0000/~tNPl, PASS,   # Step10B extended
 /tutorials/configurator/,            -f omnetpp.ini -c Step10C -r 0,                            100s,           4a61-20ba/~tNPl, PASS,
-/tutorials/configurator/,            -f omnetpp.ini -c Step11A -r 0,                            500s,           0000-0000/~tNPl, PASS,
-/tutorials/configurator/,            -f omnetpp.ini -c Step11B -r 0,                            500s,           725c-f075/~tNPl, PASS,
-/tutorials/configurator/,            -f omnetpp.ini -c Step12 -r 0,                             100s,           3e2c-9c0a/~tNPl, PASS,
+/tutorials/configurator/,            -f omnetpp.ini -c Step11A -r 0,                            500s,           0000-0000/~tNPl, PASS, EthFD
+/tutorials/configurator/,            -f omnetpp.ini -c Step11B -r 0,                            500s,           725c-f075/~tNPl, PASS, EthFD
+/tutorials/configurator/,            -f omnetpp.ini -c Step12 -r 0,                             100s,           3e2c-9c0a/~tNPl, PASS, EthFD
 
 # /tutorials/rip/,                     -f omnetpp.ini -c Step1 -r 0,                              100s,           c5dc-94dd/~tNPl, PASS,
 # /tutorials/rip/,                     -f omnetpp.ini -c Step2 -r 0,                              100s,           8277-66eb/~tNPl, PASS,   # Step2 extended
