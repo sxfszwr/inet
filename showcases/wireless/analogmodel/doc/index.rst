@@ -123,24 +123,57 @@ The unit disk analog model is the simplest available in INET. It models three ra
 - **Interference range**: transmissions can't be received successfully in this range, but they can ruin other receptions
 - **Detection range**: transmission can't interfere with other transmissions in this range, but they can cause network nodes detecting them to defer from transmitting (when using a suitable MAC module, such as :ned:`CsmaCaMac` or :ned:`Ieee80211Mac`)
 
-These parameters can be set in the unit disk transmitters (:par:`communicationRange`, :par:`interferenceRange`, :par:`detectionRange` parameters).
+These ranges can be set in the unit disk transmitters (:par:`communicationRange`, :par:`interferenceRange`, :par:`detectionRange` parameters).
 Furthermore, the unit disk transmitters model some protocol features, configurable by parameters, such as :par:`headerLength`, :par:`preambleDuration`, and :par:`bitrate`; the bitrate is used to calculate transmission duration.
 
 .. **TODO**: the actual parameters
 
 The unit disk receiver's :par:`ignoreInterference` parameter configures whether interfering signals ruin receptions (``false`` by default).
 
-**TODO**
+.. **TODO**
 
-- why is it good? for what purpose?
-- what modules are available? and how to use it
-- ideally, the ranges should be incrementally larger
+  - why is it good? for what purpose?
+  - what modules are available? and how to use it
+  - ideally, the ranges should be incrementally larger
+
+.. The unit disk analog model is suitable for wireless simulations in which the details of the physical layer is not important, such as testing routing protocols.
+   The unit disk analog model is used by the :ned:`UnitDiskRadio` module; the module contains a :ned:`UnitDiskTransmitter` and a :ned:`UnitDiskReceiver` module.
+   :ned:`UnitDiskRadio` can be used with :ned:`UnitDiskRadioMedium`.
+   Also, there is a unit disk version of Wifi: the :ned:`Ieee80211UnitDiskRadio` module contains a :ned:`Ieee80211UnitDiskTransmitter` and a :ned:`Ieee80211UnitDiskReceiver`.
+   (to be used with :ned:`UnitDiskRadioMedium`).
+
+The unit disk analog model is suitable for wireless simulations in which the details of the physical layer is not important, such as testing routing protocols. The following modules use the unit disk analog model:
+
+- :ned:`UnitDiskRadioMedium`: the only radio medium using the unit disk analog model; use/to be used with all unit disk radio types
+- :ned:`UnitDiskRadio`: generic radio using the unit disk analog model; contain :ned:`UnitDiskTransmitter` and :ned:`UnitDiskReceiver`
+- :ned:`Ieee80211UnitDiskRadio`: unit disk version of Wifi; contains :ned:`Ieee80211UnitDiskTransmitter` and :ned:`Ieee80211UnitDiskReceiver`
+
+**TODO** mention AckingInterface ?
+
+..  so
+
+  - in INET, the unit disk analog model can be used with several wireless protocols/technnologies
+  - there is a Wifi version (Ieee80211UnitDiskRadio which contains Ieee80211UnitDiskTransmitter)
+  - and there is the UnitDiskRadio with UnitDiskTransmitter and UnitDiskReceiver
+  - and there is the UnitDiskRadioMedium. This is the only unit disk radio medium type
+  - so the macs...is this showcase about that? should they be mentioned? if relevant
+  - AckingWirelessInterface -> unitdiskradio+ackingmac -> this has the unit disk radio
+
+  - so there is the UnitDiskRadioMedium -> to be used with any unit disk analog models
+  - there is the UnitDiskRadio -> UnitDiskTransmitter, UnitDiskReceiver
+  - there is the Ieee80211UnitDiskRadio -> Ieee80211UnitDiskTransmitter, Ieee80211UnitDiskReceiver
+  - AckingInterface -> UnitDiskRadio -> might not be needed
+
+  - so basically UnitDiskRadioMedium + UnitDiskRadio (which has the UDtx, UDrx)
+    use it with a mac
+  - and there is the Wifi version
 
 - its simple and runs fast; suitable for scenarios where the details of tranmissisons don't matter/the emphasis is not on that, for example, routing
-- there are actually, there are radios, which contain the transmitters and receivers
-and there is the radio medium...need to use compatible...some examples
-and there are some MAC's which can be used...not all features of the unit disk can be used with all MACs...the ackingmac doesnt do defer...need csmaca for that
-there is apsk and wifi...there are interfaces...
+
+.. - there are actually, there are radios, which contain the transmitters and receivers
+   and there is the radio medium...need to use compatible...some examples
+   and there are some MAC's which can be used...not all features of the unit disk can be used with all MACs...the ackingmac doesnt do defer...need csmaca for that
+   there is apsk and wifi...there are interfaces...
 
 .. It has three ranges configurable by parameters:
 
@@ -149,6 +182,16 @@ there is apsk and wifi...there are interfaces...
   - Detection range: transmission can't interfere with other transmissions, but can cause network nodes detecting them to defer from transmitting (when using a suitable MAC module, such as CsmaCaMac or Ieee80211Mac)
 
 **TODO** need to use the appropriate radio medium, and radio modules (which have the correct transmitter and receiver types) -> not here
+
+We'll demonstrate the unit disk analog model in an example scenario featuring mobile adhoc hosts, which use the AODV protocol to maintain routes:
+
+.. figure:: media/unitdisknetwork.png
+   :width: 100%
+   :align: center
+
+.. figure:: media/unitdisknetwork2.png
+   :width: 100%
+   :align: center
 
 Number of received packets vs distance (Scalar)
 -----------------------------------------------
