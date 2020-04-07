@@ -47,5 +47,5 @@
 /examples/voipstream/VoIPStreamTest/,        -f omnetpp.ini -c pcm_s16le -r 8,   60s,     c3e1-d06a/tplx, PASS, udp EthFD
 /examples/voipstream/VoIPStreamTest/,        -f omnetpp.ini -c pcm_s16le -r 9,   60s,     9906-12c7/tplx, PASS, udp EthFD
 
-/examples/voipstream/VoIPStreamLargeNet/,    -f omnetpp.ini -c General -r 0,      5s,     011d-c919/tplx, PASS, udp EthFD EthHD
+/examples/voipstream/VoIPStreamLargeNet/,    -f omnetpp.ini -c General -r 0,      5s,     011d-c919/tplx, PASS, udp EthFD EthHD RawError
 /examples/voipstream/VoIPStreamTrafficTest/, -f omnetpp.ini -c General -r 0,      2s,     244f-a5cc/tplx, PASS, udp EthFD

@@ -32,8 +32,8 @@
 /examples/bgpv4/BgpAndOspfSimple/,   -f omnetpp.ini -c General -r 0,                1000s,           59f9-ae69/tplx, PASS, ospf EthFD
 
 /examples/dhcp/,                     -f omnetpp.ini -c WiredDHCP -r 0,              5000s,           e38b-f457/tplx, PASS, EthFD
-/examples/dhcp/,                     -f omnetpp.ini -c WirelessDHCP -r 0,           500s,            507e-1ac5/tplx, PASS, wireless EthFD
-/examples/dhcp/,                     -f omnetpp.ini -c Wireless2DHCP -r 0,          500s,            289f-e432/tplx, PASS, wireless EthFD
+/examples/dhcp/,                     -f omnetpp.ini -c WirelessDHCP -r 0,           500s,            507e-1ac5/tplx, PASS, wireless EthFD RawError
+/examples/dhcp/,                     -f omnetpp.ini -c Wireless2DHCP -r 0,          500s,            289f-e432/tplx, PASS, wireless EthFD RawError
 /examples/dhcp/,                     -f omnetpp.ini -c RebootingDHCP -r 0,          500s,            5e31-9bda/tplx, PASS, EthFD
 
 # /examples/diffserv/onedomain/,       -f omnetpp.ini -c Apps -r 0,                  10s,             0000-0000/tplx, PASS,   # Apps extended
@@ -74,18 +74,18 @@
 /examples/ethernet/arptest/,         -f omnetpp.ini -c ARPTest -r 0,                500s,            d0d5-afb0/tplx, PASS, EthFD
 /examples/ethernet/arptest2/,        -f omnetpp.ini -c ARPTest -r 0,                500s,            36a4-785e/tplx, PASS, EthFD EthHD
 # /examples/ethernet/lans/,            -f .qtenv.ini -c General -r 0
-/examples/ethernet/lans/,            -f bus.ini -c BusLAN -r 0,                     100s,            cec2-82de/tplx, PASS, EthHD
+/examples/ethernet/lans/,            -f bus.ini -c BusLAN -r 0,                     100s,            cec2-82de/tplx, PASS, EthHD RawError
 # /examples/ethernet/lans/,            -f defaults.ini -c General -r 0,               -1s,             0000-0000/tplx, ERROR,   # not a complete simulations, defaults.ini included by other ini files
-/examples/ethernet/lans/,            -f duplexswitch.ini -c SwitchedDuplexLAN -r 0, 50s,             bb4b-afd7/tplx, PASS, EthFD
-/examples/ethernet/lans/,            -f hub.ini -c Hub1 -r 0,                       100s,            2c41-3791/tplx, PASS, EthHD
-/examples/ethernet/lans/,            -f hub.ini -c Hub2 -r 0,                       10s,             b776-ee17/tplx, PASS, EthHD
-/examples/ethernet/lans/,            -f hub.ini -c Hub3 -r 0,                       100s,            2c41-3791/tplx, PASS, EthHD
-/examples/ethernet/lans/,            -f largeNet.ini -c LargeNet -r 0,              5s,              79a2-9bcd/tplx, PASS, EthFD EthHD
-/examples/ethernet/lans/,            -f mixed.ini -c MixedLAN -r 0,                 100s,            d43c-f220/tplx, PASS, EthFD EthHD
-/examples/ethernet/lans/,            -f omnetpp.ini -c MixedLAN1 -r 0,              500s,            5182-ff84/tplx, PASS, EthFD EthHD
-/examples/ethernet/lans/,            -f switch.ini -c SwitchedLAN1 -r 0,            1000s,           de42-af17/tplx, PASS, EthFD
-/examples/ethernet/lans/,            -f switch.ini -c SwitchedLanPreconf -r 0,      1000s,           c2ef-cf75/tplx, PASS, EthFD
-/examples/ethernet/lans/,            -f twoHosts.ini -c TwoHosts1 -r 0,             200s,            5d3a-c1ed/tplx, PASS, EthHD
+/examples/ethernet/lans/,            -f duplexswitch.ini -c SwitchedDuplexLAN -r 0, 50s,             bb4b-afd7/tplx, PASS, EthFD RawError
+/examples/ethernet/lans/,            -f hub.ini -c Hub1 -r 0,                       100s,            2c41-3791/tplx, PASS, EthHD RawError
+/examples/ethernet/lans/,            -f hub.ini -c Hub2 -r 0,                       10s,             b776-ee17/tplx, PASS, EthHD RawError
+/examples/ethernet/lans/,            -f hub.ini -c Hub3 -r 0,                       100s,            2c41-3791/tplx, PASS, EthHD RawError
+/examples/ethernet/lans/,            -f largeNet.ini -c LargeNet -r 0,              5s,              79a2-9bcd/tplx, PASS, EthFD EthHD RawError
+/examples/ethernet/lans/,            -f mixed.ini -c MixedLAN -r 0,                 100s,            d43c-f220/tplx, PASS, EthFD EthHD RawError
+/examples/ethernet/lans/,            -f omnetpp.ini -c MixedLAN1 -r 0,              500s,            5182-ff84/tplx, PASS, EthFD EthHD RawError
+/examples/ethernet/lans/,            -f switch.ini -c SwitchedLAN1 -r 0,            1000s,           de42-af17/tplx, PASS, EthFD RawError
+/examples/ethernet/lans/,            -f switch.ini -c SwitchedLanPreconf -r 0,      1000s,           c2ef-cf75/tplx, PASS, EthFD RawError
+/examples/ethernet/lans/,            -f twoHosts.ini -c TwoHosts1 -r 0,             200s,            5d3a-c1ed/tplx, PASS, EthHD RawError
 
 /examples/ethernet/vlan/,            -f omnetpp.ini -c NoVlan -r 0,                 10ms,            f0db-833a/tplx, PASS, EthFD
 /examples/ethernet/vlan/,            -f omnetpp.ini -c BetweenSwitches -r 0,        10ms,            91d0-187e/tplx, PASS, EthFD
@@ -101,13 +101,13 @@
 /examples/httptools/direct/pairdirect/, -f omnetpp.ini -c scripted -r 0,               500000s,      128c-6b2d/tplx, PASS,
 /examples/httptools/direct/pairdirect/, -f omnetpp.ini -c scripted-bad -r 0,           500000s,      8cb2-2401/tplx, PASS,
 /examples/httptools/direct/pairdirect/, -f omnetpp.ini -c scripted-cross -r 0,         500000s,      3c73-a7f4/tplx, PASS,
-/examples/httptools/socket/pairsocket/, -f omnetpp.ini -c random -r 0,                 500000s,      1750-9a8c/tplx, PASS, EthFD
-/examples/httptools/socket/pairsocket/, -f omnetpp.ini -c scripted -r 0,               500000s,      5fd9-2a42/tplx, PASS, EthFD
-/examples/httptools/socket/pairsocket/, -f omnetpp.ini -c scripted-bad -r 0,           500000s,      d4c1-382f/tplx, PASS, EthFD
-/examples/httptools/socket/pairsocket/, -f omnetpp.ini -c scripted-cross -r 0,         500000s,      693d-fea9/tplx, PASS, EthFD
-/examples/httptools/socket/simpleddos/, -f omnetpp.ini -c General -r 0,                500000s,      8aba-88e3/tplx, PASS, EthFD
-/examples/httptools/socket/tenserverssocket/, -f omnetpp.ini -c uniform -r 0,          50000s,       ebc0-a610/tplx, PASS, EthFD
-/examples/httptools/socket/tenserverssocket/, -f omnetpp.ini -c histogram -r 0,        50000s,       a4d8-3ca2/tplx, PASS, EthFD
+/examples/httptools/socket/pairsocket/, -f omnetpp.ini -c random -r 0,                 500000s,      1750-9a8c/tplx, PASS, EthFD RawError
+/examples/httptools/socket/pairsocket/, -f omnetpp.ini -c scripted -r 0,               500000s,      5fd9-2a42/tplx, PASS, EthFD RawError
+/examples/httptools/socket/pairsocket/, -f omnetpp.ini -c scripted-bad -r 0,           500000s,      d4c1-382f/tplx, PASS, EthFD RawError
+/examples/httptools/socket/pairsocket/, -f omnetpp.ini -c scripted-cross -r 0,         500000s,      693d-fea9/tplx, PASS, EthFD RawError
+/examples/httptools/socket/simpleddos/, -f omnetpp.ini -c General -r 0,                500000s,      8aba-88e3/tplx, PASS, EthFD RawError
+/examples/httptools/socket/tenserverssocket/, -f omnetpp.ini -c uniform -r 0,          50000s,       ebc0-a610/tplx, PASS, EthFD RawError
+/examples/httptools/socket/tenserverssocket/, -f omnetpp.ini -c histogram -r 0,        50000s,       a4d8-3ca2/tplx, PASS, EthFD RawError
 
 # /examples/ieee8021d/,                -f omnetpp.ini -c LargeNet -r 0,               100s,            0000-0000/tplx, ERROR,   # LargeNet extended
 # /examples/ieee8021d/,                -f omnetpp.ini -c RSTP -r 0,                   100s,            0000-0000/tplx, ERROR,   # RSTP extended
@@ -116,16 +116,16 @@
 # /examples/ieee8021d/,                -f omnetpp.ini -c Switch7to4BySrcPriority -r 0, 100s,           0000-0000/tplx, ERROR,   # Switch7to4BySrcPriority extended
 # /examples/ieee8021d/,                -f omnetpp.ini -c TopologyChange -r 0,         100s,            0000-0000/tplx, ERROR,   # TopologyChange extended
 # /examples/ieee8021d/,                -f omnetpp.ini -c LinkReconnect -r 0,          100s,            0000-0000/tplx, ERROR,   # LinkReconnect extended
-/examples/ieee8021d/,                -f omnetpp.ini -c RSTP-Switch1RootByMAC -r 0,   180s,           8dab-b55f/tplx, PASS, EthFD
-/examples/ieee8021d/,                -f omnetpp.ini -c STP-Switch1RootByMAC -r 0,    180s,           7dd6-82bb/tplx, PASS, EthFD
-/examples/ieee8021d/,                -f omnetpp.ini -c RSTP-Switch3RootByPriority -r 0, 180s,        3bb8-0e9f/tplx, PASS, EthFD
-/examples/ieee8021d/,                -f omnetpp.ini -c STP-Switch3RootByPriority -r 0, 180s,         afdf-12d1/tplx, PASS, EthFD
-/examples/ieee8021d/,                -f omnetpp.ini -c RSTP-Switch7to4BySrcPriority -r 0, 180s,      f01f-085d/tplx, PASS, EthFD
-/examples/ieee8021d/,                -f omnetpp.ini -c STP-Switch7to4BySrcPriority -r 0, 180s,       1ced-5d64/tplx, PASS, EthFD
-/examples/ieee8021d/,                -f omnetpp.ini -c RSTP-LargeNet -r 0,           180s,           41dd-1077/tplx, PASS, EthFD
-/examples/ieee8021d/,                -f omnetpp.ini -c STP-LargeNet -r 0,            180s,           f24c-dcb9/tplx, PASS, EthFD
-/examples/ieee8021d/,                -f omnetpp.ini -c RSTP-LinkReconnect -r 0,      180s,           d3fb-4a29/tplx, PASS, EthFD
-/examples/ieee8021d/,                -f omnetpp.ini -c STP-LinkReconnect -r 0,       180s,           2136-ec20/tplx, PASS, EthFD
+/examples/ieee8021d/,                -f omnetpp.ini -c RSTP-Switch1RootByMAC -r 0,   180s,           8dab-b55f/tplx, PASS, EthFD RawError
+/examples/ieee8021d/,                -f omnetpp.ini -c STP-Switch1RootByMAC -r 0,    180s,           7dd6-82bb/tplx, PASS, EthFD RawError
+/examples/ieee8021d/,                -f omnetpp.ini -c RSTP-Switch3RootByPriority -r 0, 180s,        3bb8-0e9f/tplx, PASS, EthFD RawError
+/examples/ieee8021d/,                -f omnetpp.ini -c STP-Switch3RootByPriority -r 0, 180s,         afdf-12d1/tplx, PASS, EthFD RawError
+/examples/ieee8021d/,                -f omnetpp.ini -c RSTP-Switch7to4BySrcPriority -r 0, 180s,      f01f-085d/tplx, PASS, EthFD RawError
+/examples/ieee8021d/,                -f omnetpp.ini -c STP-Switch7to4BySrcPriority -r 0, 180s,       1ced-5d64/tplx, PASS, EthFD RawError
+/examples/ieee8021d/,                -f omnetpp.ini -c RSTP-LargeNet -r 0,           180s,           41dd-1077/tplx, PASS, EthFD RawError
+/examples/ieee8021d/,                -f omnetpp.ini -c STP-LargeNet -r 0,            180s,           f24c-dcb9/tplx, PASS, EthFD RawError
+/examples/ieee8021d/,                -f omnetpp.ini -c RSTP-LinkReconnect -r 0,      180s,           d3fb-4a29/tplx, PASS, EthFD RawError
+/examples/ieee8021d/,                -f omnetpp.ini -c STP-LinkReconnect -r 0,       180s,           2136-ec20/tplx, PASS, EthFD RawError
 
 /examples/inet/ber/,                 -f omnetpp.ini -c ber-sack-experiment -r 0,    20s,             5942-6a28/tplx, PASS,
 /examples/inet/ber/,                 -f omnetpp.ini -c ber-flavour-experiment -r 0, 20s,             7192-426f/tplx, PASS,
@@ -154,11 +154,11 @@
 # /examples/inet/hierarchical99/,      -f .qtenv.ini -c General -r 0
 /examples/inet/hierarchical99/,      -f networklayer.ini -c IPv4 -r 0,              10000s,          33d9-9bc7/tplx, PASS, EthFD
 /examples/inet/hierarchical99/,      -f networklayer.ini -c IPv6 -r 0,              10000s,          190e-81ef/tplx, PASS, EthFD
-/examples/inet/hierarchical99/,      -f networklayer.ini -c Generic -r 0,           10000s,          61ea-1e79/tplx, PASS, EthFD
-/examples/inet/hierarchical99/,      -f networklayer.ini -c Flooding -r 0,          10000s,          bf17-904b/tplx, PASS, EthFD
-/examples/inet/hierarchical99/,      -f networklayer.ini -c ProbabilisticBroadcast -r 0,              10000s,          2380-5943/tplx, PASS, EthFD
-/examples/inet/hierarchical99/,      -f networklayer.ini -c AdaptiveProbabilisticBroadcast -r 0,      10000s,          126b-a5f8/tplx, PASS, EthFD
-/examples/inet/hierarchical99/,      -f networklayer.ini -c WiseRoute -r 0,         10000s,          21af-edc6/tplx, PASS, EthFD
+/examples/inet/hierarchical99/,      -f networklayer.ini -c Generic -r 0,           10000s,          61ea-1e79/tplx, PASS, EthFD RawError
+/examples/inet/hierarchical99/,      -f networklayer.ini -c Flooding -r 0,          10000s,          bf17-904b/tplx, PASS, EthFD RawError
+/examples/inet/hierarchical99/,      -f networklayer.ini -c ProbabilisticBroadcast -r 0,              10000s,          2380-5943/tplx, PASS, EthFD RawError
+/examples/inet/hierarchical99/,      -f networklayer.ini -c AdaptiveProbabilisticBroadcast -r 0,      10000s,          126b-a5f8/tplx, PASS, EthFD RawError
+/examples/inet/hierarchical99/,      -f networklayer.ini -c WiseRoute -r 0,         10000s,          21af-edc6/tplx, PASS, EthFD RawError
 /examples/inet/hierarchical99/,      -f omnetpp.ini -c General -r 0,                10000s,          2555-6588/tplx, PASS, EthFD
 
 /examples/inet/igmp/,                -f omnetpp.ini -c IGMPv2 -r 0,                 200s,            e8d5-8f84/tplx, PASS, EthFD
@@ -172,19 +172,19 @@
 
 /examples/inet/multicast/,           -f omnetpp.ini -c General -r 0,                2000s,           678a-706d/tplx, PASS, igmp
 
-/examples/inet/nclients/,            -f basicHTTP.ini -c General -r 0,              500000s,         a55d-72e4/tplx, PASS,
+/examples/inet/nclients/,            -f basicHTTP.ini -c General -r 0,              500000s,         a55d-72e4/tplx, PASS, RawError
 /examples/inet/nclients/,            -f filetransfer.ini -c General -r 0,           50s,             e441-2752/tplx, PASS,
-/examples/inet/nclients/,            -f nclients2.ini -c General -r 0,              50s,             72cd-fc0c/tplx, PASS,
-/examples/inet/nclients/,            -f nclients2.ini -c General -r 1,              50s,             ec09-b5ed/tplx, PASS,
-/examples/inet/nclients/,            -f omnetpp-ping.ini -c General -r 0,           10s,             78e5-bab8/tplx, PASS,
-/examples/inet/nclients/,            -f omnetpp.ini -c inet__inet -r 0,             200s,            7ab4-1913/tplx, PASS,
-/examples/inet/nclients/,            -f omnetpp.ini -c General -r 0,                3000s,           0258-0817/tplx, PASS,
+/examples/inet/nclients/,            -f nclients2.ini -c General -r 0,              50s,             72cd-fc0c/tplx, PASS, RawError
+/examples/inet/nclients/,            -f nclients2.ini -c General -r 1,              50s,             ec09-b5ed/tplx, PASS, RawError
+/examples/inet/nclients/,            -f omnetpp-ping.ini -c General -r 0,           10s,             78e5-bab8/tplx, PASS, RawError
+/examples/inet/nclients/,            -f omnetpp.ini -c inet__inet -r 0,             200s,            7ab4-1913/tplx, PASS, RawError
+/examples/inet/nclients/,            -f omnetpp.ini -c General -r 0,                3000s,           0258-0817/tplx, PASS, RawError
 /examples/inet/nclients/,            -f video.ini -c General -r 0,                  50s,             6927-2354/tplx, PASS,
 
 /examples/inet/netperfmeter/,        -f omnetpp.ini -c TraceFile-Udp -r 0,          100s,            5726-c4f0/tplx, PASS,
 /examples/inet/netperfmeter/,        -f omnetpp.ini -c TraceFile-Tcp -r 0,          100s,            8e72-890d/tplx, PASS,
-/examples/inet/netperfmeter/,        -f omnetpp.ini -c TraceFile-Sctp -r 0,              100s,            7395-7102/tplx, PASS,
-/examples/inet/netperfmeter/,        -f omnetpp.ini -c SCTP-with-OLIA -r 0,         30s,             89ae-6d92/tplx, PASS,
+/examples/inet/netperfmeter/,        -f omnetpp.ini -c TraceFile-Sctp -r 0,              100s,            7395-7102/tplx, PASS, RawFail
+/examples/inet/netperfmeter/,        -f omnetpp.ini -c SCTP-with-OLIA -r 0,         30s,             89ae-6d92/tplx, PASS, RawError
 
 /examples/inet/pcaprecorder/,        -f omnetpp.ini -c General -r 0,                5000s,           fc2f-04fc/tplx, PASS, EthFD
 
@@ -203,9 +203,9 @@
 /examples/inet/shutdownrestart/,     -f omnetpp.ini -c UDP_VideoStream -r 1,        100s,            1b7b-cf73/tplx, PASS, EthFD
 /examples/inet/shutdownrestart/,     -f omnetpp.ini -c UDP_VideoStream -r 2,        100s,            13ea-257d/tplx, PASS, EthFD
 # /examples/inet/shutdownrestart/,     -f omnetpp.ini -c TCP_common -r 0,             100s,            0000-0000/tplx, ERROR,   # TCP_common extended
-/examples/inet/shutdownrestart/,     -f omnetpp.ini -c TCP -r 0,                    100s,            b8bb-51f3/tplx, PASS, EthFD
-/examples/inet/shutdownrestart/,     -f omnetpp.ini -c TCP -r 1,                    100s,            f65c-d664/tplx, PASS, EthFD
-/examples/inet/shutdownrestart/,     -f omnetpp.ini -c TCP -r 2,                    100s,            1550-2539/tplx, PASS, EthFD
+/examples/inet/shutdownrestart/,     -f omnetpp.ini -c TCP -r 0,                    100s,            b8bb-51f3/tplx, PASS, EthFD RawError
+/examples/inet/shutdownrestart/,     -f omnetpp.ini -c TCP -r 1,                    100s,            f65c-d664/tplx, PASS, EthFD RawError
+/examples/inet/shutdownrestart/,     -f omnetpp.ini -c TCP -r 2,                    100s,            1550-2539/tplx, PASS, EthFD RawError
 
 /examples/inet/tcp_eth_reconnect/,   -f omnetpp.ini -c with_EtherMACFullDuplex -r 0, 5s,    78f7-515e/tplx, PASS, EthFD
 /examples/inet/tcp_eth_reconnect/,   -f omnetpp.ini -c with_EtherMACFullDuplex -r 1, 5s,    78f7-515e/tplx, PASS, EthFD
@@ -301,56 +301,56 @@
 /examples/internetcloud/cloudandrouters/, -f omnetpp.ini -c ten_senders -r 0,            100s,            7628-69e3/tplx, PASS, EthFD
 /examples/internetcloud/earthcloud/, -f omnetpp.ini -c General -r 0,                100s,            779b-21ab/tplx, PASS, EthFD
 
-/examples/ipv6/demonetworketh/,      -f omnetpp.ini -c General -r 0,                50000s,          3424-7924/tplx, PASS, EthFD
+/examples/ipv6/demonetworketh/,      -f omnetpp.ini -c General -r 0,                50000s,          3424-7924/tplx, PASS, EthFD RawError
 /examples/ipv6/ipv6bulk/,            -f omnetpp.ini -c inet_inet -r 0,              50s,             1dda-89d6/tplx, PASS, EthFD
-/examples/ipv6/ipv6nclients/,        -f omnetpp.ini -c ETH -r 0,                    50s,             4162-fc86/tplx, PASS, EthFD
-/examples/ipv6/ipv6nclients/,        -f omnetpp.ini -c PPP -r 0,                    50s,             dae3-d00e/tplx, PASS,
+/examples/ipv6/ipv6nclients/,        -f omnetpp.ini -c ETH -r 0,                    50s,             4162-fc86/tplx, PASS, EthFD RawError
+/examples/ipv6/ipv6nclients/,        -f omnetpp.ini -c PPP -r 0,                    50s,             dae3-d00e/tplx, PASS, RawError
 # /examples/ipv6/nclients/,            -f omnetpp.ini -c TCP_APP -r 0   # TCP_APP extended
 # /examples/ipv6/nclients/,            -f omnetpp.ini -c SCTP_APP -r 0   # SCTP_APP extended
-/examples/ipv6/nclients/,            -f omnetpp.ini -c ETH -r 0,                    1000s,           576e-c56a/tplx, PASS, EthFD
-/examples/ipv6/nclients/,            -f omnetpp.ini -c PPP -r 0,                    1000s,           3651-3ca1/tplx, PASS,
-/examples/ipv6/nclients/,            -f omnetpp.ini -c PPP_SCTP -r 0,               100s,            16dc-320b/tplx, PASS,
+/examples/ipv6/nclients/,            -f omnetpp.ini -c ETH -r 0,                    1000s,           576e-c56a/tplx, PASS, EthFD RawError
+/examples/ipv6/nclients/,            -f omnetpp.ini -c PPP -r 0,                    1000s,           3651-3ca1/tplx, PASS, RawError
+/examples/ipv6/nclients/,            -f omnetpp.ini -c PPP_SCTP -r 0,               100s,            16dc-320b/tplx, PASS, RawFail
 
 /examples/manetrouting/dsdv/,        -f omnetpp.ini -c IPv4 -r 0,                   10s,             cd11-7c78/tplx, PASS,  wireless adhoc
 /examples/manetrouting/dsdv/,        -f omnetpp.ini -c MultiIPv4 -r 0,              10s,             94c8-51dd/tplx, PASS,  wireless adhoc
 /examples/manetrouting/dsdv/,        -f omnetpp.ini -c DynamicIPv4 -r 0,            22s,             6699-04d7/tplx, PASS,  wireless adhoc
 
 # /examples/manetrouting/dymo/,        -f omnetpp.ini -c _IPv4 -r 0   # _IPv4 extended
-/examples/manetrouting/dymo/,        -f omnetpp.ini -c IPv4 -r 0,                   10s,             0e51-29c6/tplx, PASS,  wireless adhoc
+/examples/manetrouting/dymo/,        -f omnetpp.ini -c IPv4 -r 0,                   10s,             0e51-29c6/tplx, PASS,  wireless adhoc RawError
 # /examples/manetrouting/dymo/,        -f omnetpp.ini -c _IPv6 -r 0   # _IPv6 extended
-/examples/manetrouting/dymo/,        -f omnetpp.ini -c IPv6 -r 0,                   10s,             2b2e-1c2e/tplx, PASS,  wireless adhoc
+/examples/manetrouting/dymo/,        -f omnetpp.ini -c IPv6 -r 0,                   10s,             2b2e-1c2e/tplx, PASS,  wireless adhoc RawError
 # /examples/manetrouting/dymo/,        -f omnetpp.ini -c _Generic -r 0   # _Generic extended
-/examples/manetrouting/dymo/,        -f omnetpp.ini -c Generic -r 0,                10s,             70b6-9d42/tplx, PASS,  wireless adhoc
+/examples/manetrouting/dymo/,        -f omnetpp.ini -c Generic -r 0,                10s,             70b6-9d42/tplx, PASS,  wireless adhoc RawError
 # /examples/manetrouting/dymo/,        -f omnetpp.ini -c _Multi -r 0   # _Multi extended
-/examples/manetrouting/dymo/,        -f omnetpp.ini -c MultiIPv4 -r 0,              10s,             ca04-94b5/tplx, PASS,  wireless adhoc
-/examples/manetrouting/dymo/,        -f omnetpp.ini -c MultiIPv6 -r 0,              10s,             2b2e-1c2e/tplx, PASS,  wireless adhoc
-/examples/manetrouting/dymo/,        -f omnetpp.ini -c MultiGeneric -r 0,           10s,             3bb4-ce9d/tplx, PASS,  wireless adhoc
+/examples/manetrouting/dymo/,        -f omnetpp.ini -c MultiIPv4 -r 0,              10s,             ca04-94b5/tplx, PASS,  wireless adhoc RawError
+/examples/manetrouting/dymo/,        -f omnetpp.ini -c MultiIPv6 -r 0,              10s,             2b2e-1c2e/tplx, PASS,  wireless adhoc RawError
+/examples/manetrouting/dymo/,        -f omnetpp.ini -c MultiGeneric -r 0,           10s,             3bb4-ce9d/tplx, PASS,  wireless adhoc RawError
 # /examples/manetrouting/dymo/,        -f omnetpp.ini -c _Dynamic -r 0   # _Dynamic extended
-/examples/manetrouting/dymo/,        -f omnetpp.ini -c DynamicIPv4 -r 0,            22s,             a7ab-9b11/tplx, PASS,  wireless adhoc
-/examples/manetrouting/dymo/,        -f omnetpp.ini -c DynamicIPv6 -r 0,            22s,             5fe9-22ea/tplx, ERROR, wireless adhoc # IPv6: Shutdown not supported
-/examples/manetrouting/dymo/,        -f omnetpp.ini -c DynamicGeneric -r 0,         22s,             d8f1-eb74/tplx, PASS,  wireless adhoc
+/examples/manetrouting/dymo/,        -f omnetpp.ini -c DynamicIPv4 -r 0,            22s,             a7ab-9b11/tplx, PASS,  wireless adhoc RawError
+/examples/manetrouting/dymo/,        -f omnetpp.ini -c DynamicIPv6 -r 0,            22s,             5fe9-22ea/tplx, ERROR, wireless adhoc RawError # IPv6: Shutdown not supported
+/examples/manetrouting/dymo/,        -f omnetpp.ini -c DynamicGeneric -r 0,         22s,             d8f1-eb74/tplx, PASS,  wireless adhoc RawError
 
 # /examples/manetrouting/gpsr/,        -f omnetpp.ini -c Random -r 0,                 ---100s,         0000-0000/tplx, ERROR, wireless adhoc # Random extended
 # /examples/manetrouting/gpsr/,        -f omnetpp.ini -c _IPv4 -r 0,                  ---100s,         0000-0000/tplx, ERROR, wireless adhoc # _IPv4 extended
 # /examples/manetrouting/gpsr/,        -f omnetpp.ini -c _IPv6 -r 0,                  ---100s,         0000-0000/tplx, ERROR, wireless adhoc # _IPv6 extended
 # /examples/manetrouting/gpsr/,        -f omnetpp.ini -c _Generic -r 0,               ---100s,         0000-0000/tplx, ERROR, wireless adhoc # _Generic extended
-/examples/manetrouting/gpsr/,        -f omnetpp.ini -c IPv4 -r 0,                   20s,             1128-a3bc/tplx, PASS,  wireless adhoc
-/examples/manetrouting/gpsr/,        -f omnetpp.ini -c IPv6 -r 0,                   20s,             6f35-2f25/tplx, PASS,  wireless adhoc
-/examples/manetrouting/gpsr/,        -f omnetpp.ini -c Generic -r 0,                20s,             6b9d-8586/tplx, PASS,  wireless adhoc
+/examples/manetrouting/gpsr/,        -f omnetpp.ini -c IPv4 -r 0,                   20s,             1128-a3bc/tplx, PASS,  wireless adhoc RawError
+/examples/manetrouting/gpsr/,        -f omnetpp.ini -c IPv6 -r 0,                   20s,             6f35-2f25/tplx, PASS,  wireless adhoc RawError
+/examples/manetrouting/gpsr/,        -f omnetpp.ini -c Generic -r 0,                20s,             6b9d-8586/tplx, PASS,  wireless adhoc RawError
 # /examples/manetrouting/gpsr/,        -f omnetpp.ini -c _Multi -r 0,                 ---100s,         0000-0000/tplx, ERROR, wireless adhoc # _Multi extended
-/examples/manetrouting/gpsr/,        -f omnetpp.ini -c MultiIPv4 -r 0,              20s,             6ae2-6e71/tplx, PASS,  wireless adhoc
-/examples/manetrouting/gpsr/,        -f omnetpp.ini -c MultiIPv6 -r 0,              20s,             6f35-2f25/tplx, PASS,  wireless adhoc
-/examples/manetrouting/gpsr/,        -f omnetpp.ini -c MultiGeneric -r 0,           20s,             d87a-f4ab/tplx, PASS,  wireless adhoc
-/examples/manetrouting/gpsr/,        -f omnetpp.ini -c Manual -r 0,                 20s,             41d0-4325/tplx, PASS,  wireless adhoc
+/examples/manetrouting/gpsr/,        -f omnetpp.ini -c MultiIPv4 -r 0,              20s,             6ae2-6e71/tplx, PASS,  wireless adhoc RawError
+/examples/manetrouting/gpsr/,        -f omnetpp.ini -c MultiIPv6 -r 0,              20s,             6f35-2f25/tplx, PASS,  wireless adhoc RawError
+/examples/manetrouting/gpsr/,        -f omnetpp.ini -c MultiGeneric -r 0,           20s,             d87a-f4ab/tplx, PASS,  wireless adhoc RawError
+/examples/manetrouting/gpsr/,        -f omnetpp.ini -c Manual -r 0,                 20s,             41d0-4325/tplx, PASS,  wireless adhoc RawError
 # /examples/manetrouting/gpsr/,        -f omnetpp.ini -c _Dynamic -r 0,               ---100s,         0000-0000/tplx, ERROR, wireless adhoc   # _Dynamic extended
-/examples/manetrouting/gpsr/,        -f omnetpp.ini -c DynamicIPv4 -r 0,            20s,             ce31-f8ed/tplx, PASS,  wireless adhoc
-/examples/manetrouting/gpsr/,        -f omnetpp.ini -c DynamicIPv6 -r 0,            20s,             0000-0000/tplx, ERROR, wireless adhoc # This module doesn't support starting in node DOWN state
-/examples/manetrouting/gpsr/,        -f omnetpp.ini -c DynamicGeneric -r 0,         20s,             732c-c576/tplx, PASS,  wireless adhoc
+/examples/manetrouting/gpsr/,        -f omnetpp.ini -c DynamicIPv4 -r 0,            20s,             ce31-f8ed/tplx, PASS,  wireless adhoc RawError
+/examples/manetrouting/gpsr/,        -f omnetpp.ini -c DynamicIPv6 -r 0,            20s,             0000-0000/tplx, ERROR, wireless adhoc RawError # This module doesn't support starting in node DOWN state
+/examples/manetrouting/gpsr/,        -f omnetpp.ini -c DynamicGeneric -r 0,         20s,             732c-c576/tplx, PASS,  wireless adhoc RawError
 
-/examples/manetrouting/multiradio/,  -f omnetpp.ini -c MultiRadio -r 0,             20s,             07de-eac3/tplx, PASS,  wireless adhoc
-/examples/manetrouting/multiradio/,  -f omnetpp.ini -c SingleRadio -r 0,            20s,             68d2-485a/tplx, PASS,  wireless adhoc
+/examples/manetrouting/multiradio/,  -f omnetpp.ini -c MultiRadio -r 0,             20s,             07de-eac3/tplx, PASS,  wireless adhoc RawError
+/examples/manetrouting/multiradio/,  -f omnetpp.ini -c SingleRadio -r 0,            20s,             68d2-485a/tplx, PASS,  wireless adhoc RawError
 
-/examples/mobileipv6/,               -f omnetpp.ini -c One -r 0,                    25s,             a047-5e67/tplx, PASS, wireless EthFD
+/examples/mobileipv6/,               -f omnetpp.ini -c One -r 0,                    25s,             a047-5e67/tplx, PASS, wireless EthFD RawError
 
 /examples/mobility/,                 -f omnetpp.ini -c AnsimMobility -r 0,          10000s,          72f8-5c0b/tplx, PASS,
 /examples/mobility/,                 -f omnetpp.ini -c BonnMotionMobility1 -r 0,    10000s,          ce84-30b6/tplx, PASS,
@@ -382,13 +382,13 @@
 /examples/mobility/,                 -f omnetpp.ini -c TurtleMobility5 -r 0,        10000s,          9511-7d84/tplx, PASS,
 /examples/mobility/,                 -f omnetpp.ini -c TurtleMobility6 -r 0,        10000s,          0e4c-de72/tplx, PASS,
 
-/examples/mpls/ldp/,                 -f omnetpp.ini -c General -r 0,                50s,             cec2-1f1f/tplx, PASS,
+/examples/mpls/ldp/,                 -f omnetpp.ini -c General -r 0,                50s,             cec2-1f1f/tplx, PASS, RawError
 /examples/mpls/net37/,               -f omnetpp.ini -c General -r 0,                100s,            0000-0000/tplx, ERROR,    # <!> Error in module (TED) R37.LSR0.ted (id=45) during network initialization: Model error: ASSERT: condition !remote.isUnspecified() false in function initialize, networklayer/ted/TED.cc line 86.
-/examples/mpls/testte_failure/,      -f omnetpp.ini -c General -r 0,                10s,             3717-b1be/tplx, PASS,
-/examples/mpls/testte_failure2/,     -f omnetpp.ini -c General -r 0,                100s,            a8e8-55b8/tplx, PASS,
-/examples/mpls/testte_reroute/,      -f omnetpp.ini -c General -r 0,                50s,             935c-9612/tplx, PASS,
-/examples/mpls/testte_routing/,      -f omnetpp.ini -c General -r 0,                10s,             730c-a368/tplx, PASS,
-/examples/mpls/testte_tunnel/,       -f omnetpp.ini -c General -r 0,                50s,             44a8-5786/tplx, PASS,
+/examples/mpls/testte_failure/,      -f omnetpp.ini -c General -r 0,                10s,             3717-b1be/tplx, PASS, RawError
+/examples/mpls/testte_failure2/,     -f omnetpp.ini -c General -r 0,                100s,            a8e8-55b8/tplx, PASS, RawError
+/examples/mpls/testte_reroute/,      -f omnetpp.ini -c General -r 0,                50s,             935c-9612/tplx, PASS, RawError
+/examples/mpls/testte_routing/,      -f omnetpp.ini -c General -r 0,                10s,             730c-a368/tplx, PASS, RawError
+/examples/mpls/testte_tunnel/,       -f omnetpp.ini -c General -r 0,                50s,             44a8-5786/tplx, PASS, RawError
 
 /examples/communicationcache/,       -f omnetpp.ini -c ReferenceCommunicationCache -r 0,  10s,       1631-c712/tplx, PASS, wireless
 /examples/communicationcache/,       -f omnetpp.ini -c MapCommunicationCache -r 0,        10s,       1631-c712/tplx, PASS, wireless
@@ -418,16 +418,16 @@
 /examples/ospfv2/simpletest/,        -f omnetpp.ini -c ShutdownAndRestart -r 0,     500s,            6b5e-0ba9/tplx, PASS, EthFD
 /examples/ospfv2/simpletest/,        -f omnetpp.ini -c CrashAndReboot -r 0,         500s,            8b86-ec07/tplx, PASS, EthFD
 
-/examples/ospfv3/multiple_areas_FINAL/, -f omnetpp.ini -c General -r 0,             500s,            7a0f-8e1d/tplx, PASS, EthFD
-/examples/ospfv3/multiple_areas_FINAL/, -f omnetpp.ini -c LinkDown -r 0,            500s,            b1e4-69e5/tplx, PASS, EthFD
-/examples/ospfv3/multiple_areas_FINAL/, -f omnetpp.ini -c LinkDownLinkUp -r 0,      500s,            b9d0-a068/tplx, PASS, EthFD
-/examples/ospfv3/small/,             -f omnetpp.ini -c General -r 0,                200s,            4fd0-b9c8/tplx, PASS, EthFD
-/examples/ospfv3/v3_2_routers/,      -f omnetpp.ini -c General -r 0,                400s,            78ec-f22b/tplx, PASS, EthFD
-/examples/ospfv3/v3_2_routers/,      -f omnetpp.ini -c LinkDownAndUp -r 0,          400s,            12ee-8fe7/tplx, PASS, EthFD
-/examples/ospfv3/v3_3_areas/,        -f omnetpp.ini -c General -r 0,               3000s,            2d5f-af30/tplx, PASS, EthFD
-/examples/ospfv3/v3_4_routers_2_areas/, -f omnetpp.ini -c General -r 0,             300s,            7d26-f60b/tplx, PASS, EthFD
-/examples/ospfv3/v3_mesh/,           -f omnetpp.ini -c General -r 0,                500s,            a0a4-f194/tplx, PASS, EthFD
-/examples/ospfv3/v3_square_2_areas/, -f omnetpp.ini -c General -r 0,                200s,            68ad-22fa/tplx, PASS, EthFD
+/examples/ospfv3/multiple_areas_FINAL/, -f omnetpp.ini -c General -r 0,             500s,            7a0f-8e1d/tplx, PASS, EthFD RawError
+/examples/ospfv3/multiple_areas_FINAL/, -f omnetpp.ini -c LinkDown -r 0,            500s,            b1e4-69e5/tplx, PASS, EthFD RawError
+/examples/ospfv3/multiple_areas_FINAL/, -f omnetpp.ini -c LinkDownLinkUp -r 0,      500s,            b9d0-a068/tplx, PASS, EthFD RawError
+/examples/ospfv3/small/,             -f omnetpp.ini -c General -r 0,                200s,            4fd0-b9c8/tplx, PASS, EthFD RawError
+/examples/ospfv3/v3_2_routers/,      -f omnetpp.ini -c General -r 0,                400s,            78ec-f22b/tplx, PASS, EthFD RawError
+/examples/ospfv3/v3_2_routers/,      -f omnetpp.ini -c LinkDownAndUp -r 0,          400s,            12ee-8fe7/tplx, PASS, EthFD RawError
+/examples/ospfv3/v3_3_areas/,        -f omnetpp.ini -c General -r 0,               3000s,            2d5f-af30/tplx, PASS, EthFD RawError
+/examples/ospfv3/v3_4_routers_2_areas/, -f omnetpp.ini -c General -r 0,             300s,            7d26-f60b/tplx, PASS, EthFD RawError
+/examples/ospfv3/v3_mesh/,           -f omnetpp.ini -c General -r 0,                500s,            a0a4-f194/tplx, PASS, EthFD RawError
+/examples/ospfv3/v3_square_2_areas/, -f omnetpp.ini -c General -r 0,                200s,            68ad-22fa/tplx, PASS, EthFD RawError
 
 /examples/pim/dm/assert/,            -f omnetpp.ini -c General -r 0,                300s,            1d82-c970/tplx, PASS, igmp EthFD
 /examples/pim/dm/basic/,             -f omnetpp.ini -c General -r 0,                300s,            76c3-eb72/tplx, PASS, igmp EthFD
@@ -446,7 +446,7 @@
 /examples/rip/mixednetwork/,         -f omnetpp.ini -c disconnect -r 0,             100s,            347b-0bb6/tplx, PASS, EthFD
 /examples/rip/mixednetwork/,         -f omnetpp.ini -c shutdown-restart -r 0,       100s,            5587-e9fa/tplx, PASS, EthFD
 /examples/rip/simpletest/,           -f omnetpp.ini -c IPv4 -r 0,                   100s,            fcaa-ee81/tplx, PASS, EthFD
-/examples/rip/simpletest/,           -f omnetpp.ini -c IPv6 -r 0,                   100s,            6bbe-7b57/tplx, PASS, EthFD
+/examples/rip/simpletest/,           -f omnetpp.ini -c IPv6 -r 0,                   100s,            6bbe-7b57/tplx, PASS, EthFD RawError
 /examples/rip/simpletest/,           -f omnetpp.ini -c MultiIPv4 -r 0,              100s,            7472-2753/tplx, PASS, EthFD
 
 /examples/rtp/multicast1/,           -f omnetpp.ini -c General -r 0,                500s,           f698-818e/tplx, PASS, igmp
@@ -454,13 +454,13 @@
 /examples/rtp/unicast1/,             -f omnetpp.ini -c General -r 0,                1000s,           cb0e-c186/tplx, PASS,
 /examples/rtp/unicast2/,             -f omnetpp.ini -c General -r 0,                500s,           b588-9fdd/tplx, PASS,
 
-/examples/sctp/cmttest/,             -f omnetpp.ini -c General -r 0,                100s,            19ba-322a/tplx, PASS,
-/examples/sctp/multihomed/,          -f omnetpp.ini -c General -r 0,                500s,            a2d0-ff3c/tplx, PASS,
-/examples/sctp/nclients/,            -f omnetpp.ini -c General -r 0,                500s,            6f4c-c6fd/tplx, PASS,
+/examples/sctp/cmttest/,             -f omnetpp.ini -c General -r 0,                100s,            19ba-322a/tplx, PASS, RawFail
+/examples/sctp/multihomed/,          -f omnetpp.ini -c General -r 0,                500s,            a2d0-ff3c/tplx, PASS, RawFail
+/examples/sctp/nclients/,            -f omnetpp.ini -c General -r 0,                500s,            6f4c-c6fd/tplx, PASS, RawFail
 
-/examples/voip/,                     -f omnetpp.ini -c GoodChannel -r 0,            200s,            635a-0571/tplx, PASS,
-/examples/voip/,                     -f omnetpp.ini -c BadChannel -r 0,             200s,            eb50-fbaa/tplx, PASS,
-/examples/voip/,                     -f omnetpp.ini -c PeriodicChannel -r 0,        200s,            4095-fad1/tplx, PASS,
+/examples/voip/,                     -f omnetpp.ini -c GoodChannel -r 0,            200s,            635a-0571/tplx, PASS, RawError
+/examples/voip/,                     -f omnetpp.ini -c BadChannel -r 0,             200s,            eb50-fbaa/tplx, PASS, RawError
+/examples/voip/,                     -f omnetpp.ini -c PeriodicChannel -r 0,        200s,            4095-fad1/tplx, PASS, RawError
 
 ### /examples/voipstream/* : see voipstream.csv
 
@@ -470,10 +470,10 @@
 
 /examples/wireless/configurator/,    -f omnetpp.ini -c General -r 0,                100s,            fbf4-ca5e/tplx, PASS, wireless EthFD
 
-/examples/wireless/corruptionmode/,  -f omnetpp.ini -c PacketCorruptionMode -r 0,   10s,         8919-144b/tplx, PASS,
-/examples/wireless/corruptionmode/,  -f omnetpp.ini -c ChunkCorruptionMode -r 0,    10s,         9fe0-014a/tplx, PASS,
-/examples/wireless/corruptionmode/,  -f omnetpp.ini -c ByteCorruptionMode -r 0,     10s,         783e-f887/tplx, PASS,
-/examples/wireless/corruptionmode/,  -f omnetpp.ini -c BitCorruptionMode -r 0,      10s,         3590-3528/tplx, PASS,
+/examples/wireless/corruptionmode/,  -f omnetpp.ini -c PacketCorruptionMode -r 0,   10s,         8919-144b/tplx, PASS, RawFail
+/examples/wireless/corruptionmode/,  -f omnetpp.ini -c ChunkCorruptionMode -r 0,    10s,         9fe0-014a/tplx, PASS, RawFail
+/examples/wireless/corruptionmode/,  -f omnetpp.ini -c ByteCorruptionMode -r 0,     10s,         783e-f887/tplx, PASS, RawFail
+/examples/wireless/corruptionmode/,  -f omnetpp.ini -c BitCorruptionMode -r 0,      10s,         3590-3528/tplx, PASS, RawFail
 
 /examples/wireless/crosstalk/,       -f omnetpp.ini -c General -r 0,                2s,           0a4f-e755/tplx, PASS, wireless
 
@@ -486,7 +486,7 @@
 /examples/wireless/filtering/,       -f omnetpp.ini -c ListeningFilter -r 0,          100s,         946b-6f7f/tplx, PASS,
 /examples/wireless/filtering/,       -f omnetpp.ini -c MacAddressFilter -r 0,         100s,         d2d8-8182/tplx, PASS,
 
-/examples/wireless/handover/,        -f omnetpp.ini -c General -r 0,                1500s,        8c08-7cb7/tplx, PASS, wireless
+/examples/wireless/handover/,        -f omnetpp.ini -c General -r 0,                1500s,        8c08-7cb7/tplx, PASS, wireless RawError
 
 /examples/wireless/hiddennode/,      -f omnetpp.ini -c General -r 0,                5s,         8383-735e/tplx, PASS, wireless
 
@@ -529,18 +529,18 @@
 /examples/wireless/nic/,             -f omnetpp.ini -c AckingMacWithUnitDiskRadio -r 0,           100s,     62a9-f6c9/tplx, PASS, wireless
 /examples/wireless/nic/,             -f omnetpp.ini -c AckingMacWithApskScalarRadio -r 0,         100s,     62a9-f6c9/tplx, PASS, wireless
 /examples/wireless/nic/,             -f omnetpp.ini -c AckingMacWithApskDimensionalRadio -r 0,    100s,     62a9-f6c9/tplx, PASS, wireless
-/examples/wireless/nic/,             -f omnetpp.ini -c LMacWithUnitDiskRadio -r 0,                100s,     c04f-7b4d/tplx, PASS, wireless
-/examples/wireless/nic/,             -f omnetpp.ini -c LMacWithApskScalarRadio -r 0,              100s,     b0d6-1162/tplx, PASS, wireless
-/examples/wireless/nic/,             -f omnetpp.ini -c LMacWithApskDimensionalRadio -r 0,         100s,     b0d6-1162/tplx, PASS, wireless
-/examples/wireless/nic/,             -f omnetpp.ini -c CSMAWithUnitDiskRadio -r 0,                100s,     2f4e-52a5/tplx, PASS, wireless
-/examples/wireless/nic/,             -f omnetpp.ini -c CSMAWithApskScalarRadio -r 0,              100s,     2f4e-52a5/tplx, PASS, wireless
-/examples/wireless/nic/,             -f omnetpp.ini -c CSMAWithApskDimensionalRadio -r 0,         100s,     2f4e-52a5/tplx, PASS, wireless
-/examples/wireless/nic/,             -f omnetpp.ini -c CsmaCaWithUnitDiskRadio -r 0,              100s,    8188-be67/tplx, PASS, wireless
-/examples/wireless/nic/,             -f omnetpp.ini -c CsmaCaWithApskScalarRadio -r 0,            100s,    8188-be67/tplx, PASS, wireless
-/examples/wireless/nic/,             -f omnetpp.ini -c CsmaCaWithApskDimensionalRadio -r 0,       100s,    8188-be67/tplx, PASS, wireless
-/examples/wireless/nic/,             -f omnetpp.ini -c BMacWithUnitDiskRadio -r 0,                100s,     fd72-0743/tplx, PASS, wireless
-/examples/wireless/nic/,             -f omnetpp.ini -c BMacWithApskScalarRadio -r 0,              100s,     b88a-feef/tplx, PASS, wireless
-/examples/wireless/nic/,             -f omnetpp.ini -c BMacWithApskDimensionalRadio -r 0,         100s,     b88a-feef/tplx, PASS, wireless
+/examples/wireless/nic/,             -f omnetpp.ini -c LMacWithUnitDiskRadio -r 0,                100s,     c04f-7b4d/tplx, PASS, wireless RawError
+/examples/wireless/nic/,             -f omnetpp.ini -c LMacWithApskScalarRadio -r 0,              100s,     b0d6-1162/tplx, PASS, wireless RawError
+/examples/wireless/nic/,             -f omnetpp.ini -c LMacWithApskDimensionalRadio -r 0,         100s,     b0d6-1162/tplx, PASS, wireless RawError
+/examples/wireless/nic/,             -f omnetpp.ini -c CSMAWithUnitDiskRadio -r 0,                100s,     2f4e-52a5/tplx, PASS, wireless RawError
+/examples/wireless/nic/,             -f omnetpp.ini -c CSMAWithApskScalarRadio -r 0,              100s,     2f4e-52a5/tplx, PASS, wireless RawError
+/examples/wireless/nic/,             -f omnetpp.ini -c CSMAWithApskDimensionalRadio -r 0,         100s,     2f4e-52a5/tplx, PASS, wireless RawError
+/examples/wireless/nic/,             -f omnetpp.ini -c CsmaCaWithUnitDiskRadio -r 0,              100s,    8188-be67/tplx, PASS, wireless RawError
+/examples/wireless/nic/,             -f omnetpp.ini -c CsmaCaWithApskScalarRadio -r 0,            100s,    8188-be67/tplx, PASS, wireless RawError
+/examples/wireless/nic/,             -f omnetpp.ini -c CsmaCaWithApskDimensionalRadio -r 0,       100s,    8188-be67/tplx, PASS, wireless RawError
+/examples/wireless/nic/,             -f omnetpp.ini -c BMacWithUnitDiskRadio -r 0,                100s,     fd72-0743/tplx, PASS, wireless RawError
+/examples/wireless/nic/,             -f omnetpp.ini -c BMacWithApskScalarRadio -r 0,              100s,     b88a-feef/tplx, PASS, wireless RawError
+/examples/wireless/nic/,             -f omnetpp.ini -c BMacWithApskDimensionalRadio -r 0,         100s,     b88a-feef/tplx, PASS, wireless RawError
 /examples/wireless/nic/,             -f omnetpp.ini -c XMacWithUnitDiskRadio -r 0,                100s,     39b2-8d8d/tplx, PASS, wireless
 /examples/wireless/nic/,             -f omnetpp.ini -c XMacWithApskScalarRadio -r 0,              100s,     39b2-8d8d/tplx, PASS, wireless
 /examples/wireless/nic/,             -f omnetpp.ini -c XMacWithApskDimensionalRadio -r 0,         100s,     39b2-8d8d/tplx, PASS, wireless
@@ -554,11 +554,11 @@
 
 /examples/wireless/power/,           -f omnetpp.ini -c General -r 0,                100s,            6fae-d558/tplx, PASS, wireless
 
-/examples/wireless/qos/,             -f omnetpp.ini -c MacNonQos -r 0,                 10s,         a54a-53e0/tplx, PASS, wireless
-/examples/wireless/qos/,             -f omnetpp.ini -c MacQos -r 0,                    10s,         3bfe-928d/tplx, PASS, wireless
-/examples/wireless/qos/,             -f omnetpp.ini -c MacQosWithoutAggregation -r 0,                10s,         b218-690b/tplx, PASS, wireless
-/examples/wireless/qos/,             -f omnetpp.ini -c MacQosWithRtsCts -r 0,          10s,         c8d2-adf0/tplx, PASS, wireless
-/examples/wireless/qos/,             -f omnetpp.ini -c MacQosWithBlockAck -r 0,        10s,         a7a1-a183/tplx, PASS, wireless
+/examples/wireless/qos/,             -f omnetpp.ini -c MacNonQos -r 0,                 10s,         a54a-53e0/tplx, PASS, wireless RawError
+/examples/wireless/qos/,             -f omnetpp.ini -c MacQos -r 0,                    10s,         3bfe-928d/tplx, PASS, wireless RawError
+/examples/wireless/qos/,             -f omnetpp.ini -c MacQosWithoutAggregation -r 0,                10s,         b218-690b/tplx, PASS, wireless RawError
+/examples/wireless/qos/,             -f omnetpp.ini -c MacQosWithRtsCts -r 0,          10s,         c8d2-adf0/tplx, PASS, wireless RawError
+/examples/wireless/qos/,             -f omnetpp.ini -c MacQosWithBlockAck -r 0,        10s,         a7a1-a183/tplx, PASS, wireless RawError
 
 /examples/wireless/ratecontrol/, -f omnetpp.ini -c Mac -r 0,                    100s,            bf30-2f13/tplx, PASS, wireless
 
@@ -579,5 +579,5 @@
 # /examples/wireless/throughput/,      -f omnetpp.ini -c Throughput2 -r 0,            100s,         0000-0000/tplx, ERROR, wireless # Throughput2 extended
 /examples/wireless/throughput/,      -f omnetpp.ini -c Mac -r 0,                    10s,         3b2b-5123/tplx, PASS, wireless
 
-/examples/wireless/wiredandwirelesshostswithap/, -f omnetpp.ini -c General -r 0,                100s,      385f-ed38/tplx, PASS, wireless EthFD
+/examples/wireless/wiredandwirelesshostswithap/, -f omnetpp.ini -c General -r 0,                100s,      385f-ed38/tplx, PASS, wireless EthFD RawError
 
